@@ -1,50 +1,90 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef, useCallback } from "react"
 
 import Card from '@/components/Card'
 
 import { ApiCardProps } from '@/interface/api';
 
-const OBJECT_IDS = [
-  55324, 425123, 12345, 123, 436839,
-  10425, 10020, 32145, 10252, 8500
-]
+interface CardListProps {
+  url: string;
+}
 
-export default function CardList() {
-  const [cards, setCards] = useState<any[]>([])
+export default function CardList({ url }: CardListProps) {
+  const [objectIDs, setObjectIDs] = useState<number[]>([])
+  const [cards, setCards] = useState<ApiCardProps[]>([])
+  const [page, setPage] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [hasMore, setHasMore] = useState(true)
+  const loader = useRef<HTMLDivElement | null>(null)
+  
+  const PAGE_SIZE = 15;
+  const BASE_API_URL = "https://collectionapi.metmuseum.org/public/collection/v1/";
+  const API_URL = BASE_API_URL + url;
 
+  // Fetch all object IDs on mount
   useEffect(() => {
-    async function fetchCards() {
-      setLoading(true)
-      const results = await Promise.all(
-        OBJECT_IDS.map(async (id) => {
-          const res = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`)
-          return res.json()
-        })
-      )
-      setCards(results)
-      setLoading(false)
+    async function fetchObjectIDs() {
+      setLoading(true);
+      const res = await fetch(API_URL);
+      const data = await res.json();
+      setObjectIDs(data.objectIDs || []);
+      setLoading(false);
     }
-    fetchCards()
+    fetchObjectIDs();
   }, [])
 
-  if (loading) {
-    return <div className="text-center py-10">Loading...</div>
-  }
+  // Fetch cards for current page
+  useEffect(() => {
+    async function fetchCards() {
+      if (!objectIDs.length) return;
+      setLoading(true);
+      const start = page * PAGE_SIZE;
+      const end = start + PAGE_SIZE;
+      const idsToFetch = objectIDs.slice(start, end);
+
+      const results = await Promise.all(
+        idsToFetch.map(async (id) => {
+          const res = await fetch(`${BASE_API_URL}objects/${id}`);
+          const card = await res.json();
+          return card as ApiCardProps;
+        })
+      )
+      setCards((prev) => [...prev, ...results]);
+      setHasMore(end < objectIDs.length);
+      setLoading(false);
+    }
+    fetchCards();
+  }, [objectIDs, page])
+
+  // Infinite scroll observer
+  const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
+    const target = entries[0];
+    if (target.isIntersecting && hasMore && !loading) {
+      setPage((prev) => prev + 1);
+    }
+  }, [hasMore, loading])
+
+  useEffect(() => {
+    const option = { root: null, rootMargin: "20px", threshold: 1.0 };
+    const observer = new IntersectionObserver(handleObserver, option);
+    if (loader.current) observer.observe(loader.current);
+    return () => { if (loader.current) observer.unobserve(loader.current) };
+  }, [handleObserver])
 
   return (
-    <div
-      className="max-w-6xl mx-auto grid gap-y-6 gap-x-4 justify-center"
-      style={{ gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))" }}
-    >
-      {cards.map((card: ApiCardProps) => (
-        <Card
-          key={'key' + card.objectID}
-          data={card}
-        />
-      ))}
+    <div>
+      <div
+        className="max-w-6xl mx-auto grid gap-y-6 gap-x-4 justify-center"
+        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))" }}
+      >
+        {cards.map((card, index) => (
+          (card.primaryImageSmall && <Card key={'key' + index} data={card} />)
+        ))}
+      </div>
+      <div ref={loader} />
+      {loading && <div className="text-center py-10">Loading...</div>}
+      {!hasMore && !loading && <div className="text-center py-10 text-gray-400">No more cards.</div>}
     </div>
   )
 }
