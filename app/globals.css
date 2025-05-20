@@ -119,4 +119,12 @@
   body {
     @apply bg-background text-foreground;
   }
+  button {
+    @apply cursor-pointer;
+  }
+}
+@layer component {
+  .section-width {
+    @apply w-full max-w-7xl mx-auto
+  }
 }
