@@ -75,8 +75,8 @@ export default function CardList({ url }: CardListProps) {
   return (
     <div>
       <div
-        className="max-w-6xl mx-auto grid gap-y-6 gap-x-4 justify-center"
-        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))" }}
+        className="max-w-7xl mx-auto grid gap-y-6 gap-x-4 justify-center"
+        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
       >
         {cards.map((card, index) => (
           (card.primaryImageSmall && <Card key={'key' + index} data={card} />)
