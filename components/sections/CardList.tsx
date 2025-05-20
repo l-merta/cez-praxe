@@ -28,7 +28,13 @@ export default function CardList({ url }: CardListProps) {
       setLoading(true);
       const res = await fetch(API_URL);
       const data = await res.json();
-      setObjectIDs(data.objectIDs || []);
+      let ids = data.objectIDs || [];
+      // Shuffle the array
+      for (let i = ids.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [ids[i], ids[j]] = [ids[j], ids[i]];
+      }
+      setObjectIDs(ids);
       setLoading(false);
     }
     fetchObjectIDs();
