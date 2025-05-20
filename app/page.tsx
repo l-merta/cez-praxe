@@ -14,12 +14,14 @@ export default function Home() {
         </div>
       </div>
       <Tabs defaultValue="featured">
-        <div className="section-width py-3 sticky-top-0">
-          <TabsList>
-            <TabsTrigger value="featured" className="px-8">Featured</TabsTrigger>
-            <TabsTrigger value="browse" className="px-8">Browse</TabsTrigger>
-            <TabsTrigger value="favorites" className="px-8">Favorites</TabsTrigger>
-          </TabsList>
+        <div className="sticky top-0 bg-white/20 dark:bg-gray-900/80 backdrop-blur z-20">
+          <div className="section-width py-3">
+            <TabsList>
+              <TabsTrigger value="featured" className="px-8">Featured</TabsTrigger>
+              <TabsTrigger value="browse" className="px-8">Browse</TabsTrigger>
+              <TabsTrigger value="favorites" className="px-8">Favorites</TabsTrigger>
+            </TabsList>
+          </div>
         </div>
         <TabsContent value="featured">
           <CardList url="/objects" />
