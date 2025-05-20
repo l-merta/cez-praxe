@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from "react"
 
 import Card from '@/components/Card'
+import CardList_Skeleton from '@/components/sections/CardList_Skeleton'
 
 import { ApiCardProps } from '@/interface/api';
 
@@ -89,7 +90,7 @@ export default function CardList({ url }: CardListProps) {
         ))}
       </div>
       <div ref={loader} />
-      {loading && <div className="text-center py-10">Loading...</div>}
+      {loading && <CardList_Skeleton cardsCount={8} />}
       {!hasMore && !loading && <div className="text-center py-10 text-gray-400">No more cards.</div>}
     </div>
   )
