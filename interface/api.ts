@@ -4,4 +4,5 @@ export interface ApiCardProps {
   elementDescrition: string | null;
   repository: string;
   primaryImage: string;
+  objectDate: string;
 }
