@@ -6,65 +6,25 @@ import Card from '@/components/Card'
 import CardList_Skeleton from '@/components/sections/CardList_Skeleton'
 
 import { ApiCardProps } from '@/interface/api';
+import useGetObjects from "@/hooks/useGetObjects";
 
 interface CardListProps {
   url: string;
+  data?: number[];
+  isLoading?: boolean;
 }
 
-export default function CardList({ url }: CardListProps) {
+export default function CardList({ url, data, isLoading }: CardListProps) {
   const [objectIDs, setObjectIDs] = useState<number[]>([])
   const [cards, setCards] = useState<ApiCardProps[]>([])
   const [page, setPage] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
   const loader = useRef<HTMLDivElement | null>(null)
   
   const PAGE_SIZE = 15;
   const BASE_API_URL = "https://collectionapi.metmuseum.org/public/collection/v1/";
   const API_URL = BASE_API_URL + url;
-
-  // Fetch all object IDs on mount
-  useEffect(() => {
-    async function fetchObjectIDs() {
-      setLoading(true);
-      const res = await fetch(API_URL);
-      const data = await res.json();
-      let ids = data.objectIDs || [];
-      ///*
-      // Shuffle the array
-      for (let i = ids.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [ids[i], ids[j]] = [ids[j], ids[i]];
-      }
-      //*/
-      setObjectIDs(ids);
-      setLoading(false);
-    }
-    fetchObjectIDs();
-  }, [])
-
-  // Fetch cards for current page
-  useEffect(() => {
-    async function fetchCards() {
-      if (!objectIDs.length) return;
-      setLoading(true);
-      const start = page * PAGE_SIZE;
-      const end = start + PAGE_SIZE;
-      const idsToFetch = objectIDs.slice(start, end);
-
-      const results = await Promise.all(
-        idsToFetch.map(async (id) => {
-          const res = await fetch(`${BASE_API_URL}objects/${id}`);
-          const card = await res.json();
-          return card as ApiCardProps;
-        })
-      )
-      setCards((prev) => [...prev, ...results]);
-      setHasMore(end < objectIDs.length);
-      setLoading(false);
-    }
-    fetchCards();
-  }, [objectIDs, page])
 
   // Infinite scroll observer
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
@@ -87,8 +47,8 @@ export default function CardList({ url }: CardListProps) {
         className="section-width grid gap-y-6 gap-x-4 justify-center"
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
       >
-        {cards.map((card, index) => (
-          (card.primaryImageSmall && <Card key={'key' + index} data={card} />)
+        {data?.slice(0, 10).map((card, index) => (
+          <Card key={'key' + index} id={card} />
         ))}
       </div>
       <div ref={loader} />

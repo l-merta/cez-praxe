@@ -1,14 +1,17 @@
 import { ApiCardProps } from '@/interface/api';
 import { useRef, useState, useEffect } from "react";
+import useGetDetail from "@/hooks/useGetDetail";
 
 interface CardProps {
-  data: ApiCardProps;
+  id: number;
 }
 
-export default function Card({ data }: CardProps) {
+export default function Card({ id }: CardProps) {
   const imgRef = useRef<HTMLImageElement>(null);
   const [hovered, setHovered] = useState(true); // Start opened
   const [naturalHeight, setNaturalHeight] = useState(0);
+
+  const { data } = useGetDetail({ id });
 
   // Close right after mount
   useEffect(() => {
@@ -42,21 +45,21 @@ export default function Card({ data }: CardProps) {
           height: hovered && naturalHeight ? naturalHeight : initialHeight,
         }}
       >
-        {data.primaryImage && (
+        {data?.primaryImage && (
           <img
             ref={imgRef}
-            src={data.primaryImageSmall}
+            src={data?.primaryImageSmall}
             alt=""
             className="object-cover w-full h-full transition-all duration-500"
           />
         )}
       </div>
       <div className="flex flex-col gap-2 p-4 rounded-b-md border-2 border-t-0 border-gray-100">
-        <h3 className="text-xl font-bold">{data.title}</h3>
-        {data.elementDescrition && (
-          <p className="text-sm text-gray-500">{data.elementDescrition}</p>
+        <h3 className="text-xl font-bold">{data?.title}</h3>
+        {data?.elementDescrition && (
+          <p className="text-sm text-gray-500">{data?.elementDescrition}</p>
         )}
-        <p className="text-sm text-gray-500">{data.objectDate}</p>
+        <p className="text-sm text-gray-500">{data?.objectDate}</p>
       </div>
     </div>
   );

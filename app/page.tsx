@@ -1,36 +1,46 @@
+"use client";
+
+import Hero from "@/components/sections/Hero";
 import CardList from "@/components/sections/CardList";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import useGetObjects from "@/hooks/useGetObjects";
 
 export default function Home() {
+  const { data, isLoading } = useGetObjects();
+
+  function getRandomFeaturedObjects() {
+    if (!data?.objectIDs) return [];
+    const ids = [...data.objectIDs];
+    // Fisher-Yates shuffle for true randomness
+    for (let i = ids.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [ids[i], ids[j]] = [ids[j], ids[i]];
+    }
+    return ids.slice(0, 10);
+  }
+  console.log(getRandomFeaturedObjects());
+
   return (
     <main className="px-4 pb-10">
-      <div className="section-width min-h-[50vh] flex flex-col items-center justify-center gap-6">
-        <h1 className="text-4xl font-bold">The Metropolitan Museum of Art</h1>
-        <div className="w-full max-w-md flex items-center gap-2">
-          <Input placeholder="Search for art, artists, or objects…" className="w-full"></Input>
-          <Button variant="default">Search</Button>
-        </div>
-      </div>
+      <Hero />
       <Tabs defaultValue="featured">
         <div className="sticky top-0 bg-white/20 dark:bg-gray-900/80 backdrop-blur z-20">
           <div className="section-width py-3">
-            <TabsList>
-              <TabsTrigger value="featured" className="px-8">Featured</TabsTrigger>
-              <TabsTrigger value="browse" className="px-8">Browse</TabsTrigger>
-              <TabsTrigger value="favorites" className="px-8">Favorites</TabsTrigger>
+            <TabsList className="*:px-8">
+              <TabsTrigger value="featured">Featured</TabsTrigger>
+              <TabsTrigger value="browse">Browse</TabsTrigger>
+              <TabsTrigger value="favorites">Favorites</TabsTrigger>
             </TabsList>
           </div>
         </div>
         <TabsContent value="featured">
-          <CardList url="/objects" />
+          <CardList url="/objects" data={data?.objectIDs} isLoading={isLoading} />
         </TabsContent>
         <TabsContent value="browse">
-          <CardList url="/objects" />
+          <CardList url="/objects" data={data?.objectIDs} isLoading={isLoading} />
         </TabsContent>
         <TabsContent value="favorites">
-          <CardList url="/objects" />
+          <CardList url="/objects" data={data?.objectIDs} isLoading={isLoading} />
         </TabsContent>
       </Tabs>
     </main>
