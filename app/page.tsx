@@ -18,7 +18,7 @@ export default function Home() {
     }
     return ids.slice(0, 10);
   }
-  console.log(getRandomFeaturedObjects());
+  //console.log(getRandomFeaturedObjects());
 
   return (
     <main className="px-4 pb-10">
@@ -34,13 +34,13 @@ export default function Home() {
           </div>
         </div>
         <TabsContent value="featured">
-          <CardList data={data?.objectIDs} isLoading={isLoading} />
+          <CardList header="Featured" data={getRandomFeaturedObjects()} isLoading={isLoading} />
         </TabsContent>
         <TabsContent value="browse">
-          <CardList data={data?.objectIDs} isLoading={isLoading} />
+          <CardList header="Browse" data={data?.objectIDs} isLoading={isLoading} />
         </TabsContent>
         <TabsContent value="favorites">
-          <CardList data={data?.objectIDs} isLoading={isLoading} />
+          <CardList header="Favorites" data={data?.objectIDs} isLoading={isLoading} />
         </TabsContent>
       </Tabs>
     </main>
