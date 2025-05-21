@@ -36,7 +36,8 @@ export default function Card({ id }: CardProps) {
   };
 
   // 16:9 aspect ratio for initial state
-  const initialHeight = 0.5625 * 300; // 300px width example, adjust as needed
+  const width = 300;
+  const initialHeight = 0.5625 * width;
 
   if (isLoading) return (
     <Card_Skeleton />

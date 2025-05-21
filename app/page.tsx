@@ -1,26 +1,17 @@
-"use client";
-import useGetObjects from "@/hooks/useGetObjects";
+import type { Metadata } from "next";
 
 import Hero from "@/components/sections/Hero";
-import CardList from "@/components/sections/CardList";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import CardListTabs from "@/components/sections/CardListTabs";
 import { GalleryHorizontalEnd, Telescope, Globe, Heart } from "lucide-react";
 
+export const metadata: Metadata = {
+  title: "Museum of Art",
+  authors: [{ name: "Lukáš Merta", url: "https://mertalukas.cz" }],
+  description: "Explore the Metropolitan Museum of Art's collection.",
+};
+
 export default function Home() {
-  const { data, isLoading } = useGetObjects();
-
-  function getRandomObjects(length?: number) {
-    if (!data?.objectIDs) return [];
-    const ids = [...data.objectIDs];
-    // Fisher-Yates shuffle for true randomness
-    for (let i = ids.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [ids[i], ids[j]] = [ids[j], ids[i]];
-    }
-    return length ? ids.slice(0, length) : ids;
-  }
-  //console.log(getRandomFeaturedObjects());
-
   return (
     <main className="px-4 pb-10">
       <Hero />
@@ -35,18 +26,7 @@ export default function Home() {
             </TabsList>
           </div>
         </div>
-        <TabsContent value="featured">
-          <CardList header="Featured" data={getRandomObjects(10)} isLoading={isLoading} icon={<GalleryHorizontalEnd />} />
-        </TabsContent>
-        <TabsContent value="discover">
-          <CardList header="Discover" fnData={getRandomObjects} reload isLoading={isLoading} icon={<Telescope />} />
-        </TabsContent>
-        <TabsContent value="browse">
-          <CardList header="Browse" data={data?.objectIDs} isLoading={isLoading} icon={<Globe />} />
-        </TabsContent>
-        <TabsContent value="favorites">
-          <CardList header="Favorites" data={data?.objectIDs} isLoading={isLoading} icon={<Heart />} />
-        </TabsContent>
+        <CardListTabs />
       </Tabs>
     </main>
   );
