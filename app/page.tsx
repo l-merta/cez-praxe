@@ -8,7 +8,7 @@ import useGetObjects from "@/hooks/useGetObjects";
 export default function Home() {
   const { data, isLoading } = useGetObjects();
 
-  function getRandomFeaturedObjects() {
+  function getRandomObjects(length?: number) {
     if (!data?.objectIDs) return [];
     const ids = [...data.objectIDs];
     // Fisher-Yates shuffle for true randomness
@@ -16,7 +16,7 @@ export default function Home() {
       const j = Math.floor(Math.random() * (i + 1));
       [ids[i], ids[j]] = [ids[j], ids[i]];
     }
-    return ids.slice(0, 10);
+    return length ? ids.slice(0, length) : ids;
   }
   //console.log(getRandomFeaturedObjects());
 
@@ -28,13 +28,17 @@ export default function Home() {
           <div className="section-width py-3">
             <TabsList className="*:px-8">
               <TabsTrigger value="featured">Featured</TabsTrigger>
+              <TabsTrigger value="discover">Discover</TabsTrigger>
               <TabsTrigger value="browse">Browse</TabsTrigger>
               <TabsTrigger value="favorites">Favorites</TabsTrigger>
             </TabsList>
           </div>
         </div>
         <TabsContent value="featured">
-          <CardList header="Featured" data={getRandomFeaturedObjects()} isLoading={isLoading} />
+          <CardList header="Featured" data={getRandomObjects(10)} isLoading={isLoading} />
+        </TabsContent>
+        <TabsContent value="discover">
+          <CardList header="Discover" data={getRandomObjects()} isLoading={isLoading} />
         </TabsContent>
         <TabsContent value="browse">
           <CardList header="Browse" data={data?.objectIDs} isLoading={isLoading} />
