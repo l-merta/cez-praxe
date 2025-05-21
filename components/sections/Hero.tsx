@@ -1,7 +1,9 @@
 import { useState, useRef, useCallback } from "react";
+
+import CardList from "@/components/sections/CardList";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import CardList from "@/components/sections/CardList";
+import { Search } from "lucide-react";
 
 export default function Hero() {
   const [search, setSearch] = useState("");
@@ -34,15 +36,15 @@ export default function Hero() {
   return (
     <>
     <div className="section-width min-h-[50vh] flex flex-col items-center justify-center gap-6">
-      <h1 className="text-4xl font-bold">The Metropolitan Museum of Art</h1>
-      <div className="w-full max-w-md flex items-center gap-2">
+      <h1 className="text-4xl text-center font-bold">The Metropolitan Museum of Art</h1>
+      <div className="w-full md:w-md max-w-md flex items-center gap-2 flex-wrap md:flex-nowrap">
         <Input
           placeholder="Search for art, artists, or objects…"
-          className="w-full"
+          className=""
           value={search}
           onChange={handleInput}
         />
-        <Button variant="default">Search</Button>
+        <Button variant="default" className="w-full md:w-auto">Search <Search /></Button>
       </div>
     </div>
     {debouncedSearch.length > 0 && (

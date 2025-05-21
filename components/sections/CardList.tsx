@@ -3,11 +3,14 @@
 import { useEffect, useState, useRef, useCallback } from "react"
 
 import Card from '@/components/Card'
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import CardList_Skeleton from '@/components/sections/CardList_Skeleton'
+
+import { RotateCcw } from "lucide-react";
 
 interface CardListProps {
   header?: string;
+  icon?: React.ReactNode;
   url?: string;
   data?: number[];
   isLoading?: boolean;
@@ -60,9 +63,13 @@ export default function CardList(props: CardListProps) {
 
   return (
     <div>
-      <div className="section-width flex align-center gap-2">
-        {props.header && <h2 className="section-width text-2xl font-bold mb-6">{props.header}</h2>}
-        {props.reload && <Button onClick={() => setReloadKey(k => k + 1)}>Reload</Button>}
+      <div className="section-width flex justify-between align-center gap-4 mb-6 flex-wrap ">
+        {props.header && <h2 className="text-2xl font-bold flex items-center gap-2">{props.icon} {props.header}</h2>}
+        {props.reload && 
+          <Button onClick={() => setReloadKey(k => k + 1)} className="rounded-full p-2">
+            Reload <RotateCcw />
+          </Button>
+        }
       </div>
       <div
         className="section-width grid gap-y-6 gap-x-4 justify-center"
