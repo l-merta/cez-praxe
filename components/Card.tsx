@@ -1,6 +1,8 @@
-import { ApiCardProps } from '@/interface/api';
+//import { ApiCardProps } from '@/interface/api';
 import { useRef, useState, useEffect } from "react";
 import useGetDetail from "@/hooks/useGetDetail";
+
+import { ImageOff } from "lucide-react";
 
 interface CardProps {
   id: number;
@@ -45,13 +47,17 @@ export default function Card({ id }: CardProps) {
           height: hovered && naturalHeight ? naturalHeight : initialHeight,
         }}
       >
-        {data?.primaryImage && (
+        {data?.primaryImage ? (
           <img
             ref={imgRef}
             src={data?.primaryImageSmall}
             alt=""
             className="object-cover w-full h-full transition-all duration-500"
           />
+        ) : (
+          <div className="bg-gray-200 w-full h-full flex items-center justify-center">
+            <ImageOff className="text-gray-500" />
+          </div>
         )}
       </div>
       <div className="flex flex-col gap-2 p-4 rounded-b-md border-2 border-t-0 border-gray-100">
