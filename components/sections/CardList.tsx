@@ -81,7 +81,7 @@ export default function CardList({
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
       >
         {visibleCards.map((card, index) => (
-          <Card key={'key' + index} id={card} />
+          <Card key={card} id={card} />
         ))}
       </div>
       <div ref={loader} />

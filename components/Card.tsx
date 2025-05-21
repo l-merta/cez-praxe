@@ -78,7 +78,7 @@ export default function Card({ id }: CardProps) {
         {data?.tags && (
           <div className="flex flex-wrap gap-2">
             {data?.tags.map((tag, index) => (
-              <Badge key={index} variant="secondary" className="text-sm">
+              <Badge key={tag.term} variant="secondary" className="text-sm">
                 {tag.term}
               </Badge>
             ))}
