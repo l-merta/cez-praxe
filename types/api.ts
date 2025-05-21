@@ -10,4 +10,8 @@ export interface ApiDetailsProps {
   primaryImage: string;
   primaryImageSmall: string;
   objectDate: string;
+  tags: ApiDetailsTagProps[];
+}
+export interface ApiDetailsTagProps {
+  term: string;
 }

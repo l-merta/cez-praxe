@@ -2,8 +2,9 @@
 import { useRef, useState, useEffect } from "react";
 import useGetDetail from "@/hooks/useGetDetail";
 
-import Card_Skeleton from "./Card_Skeleton";
+import { Badge } from "@/components/ui/badge";
 import { ImageOff } from "lucide-react";
+import Card_Skeleton from "./Card_Skeleton";
 
 interface CardProps {
   id: number;
@@ -69,7 +70,16 @@ export default function Card({ id }: CardProps) {
         {data?.elementDescrition && (
           <p className="text-sm text-gray-500">{data?.elementDescrition}</p>
         )}
-        <p className="text-sm text-gray-500">{data?.objectDate}</p>
+        {data?.tags && (
+          <div className="flex flex-wrap gap-2">
+            {data?.tags.map((tag, index) => (
+              <Badge key={index} variant="secondary" className="text-sm">
+                {tag.term}
+              </Badge>
+            ))}
+          </div>
+        )}
+        <p className="text-sm text-gray-500">{data?.objectID}</p>
       </div>
     </div>
   );
