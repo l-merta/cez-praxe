@@ -38,7 +38,7 @@ export default function Home() {
           <CardList header="Featured" data={getRandomObjects(10)} isLoading={isLoading} />
         </TabsContent>
         <TabsContent value="discover">
-          <CardList header="Discover" data={getRandomObjects()} isLoading={isLoading} />
+          <CardList header="Discover" fnData={getRandomObjects} reload isLoading={isLoading} />
         </TabsContent>
         <TabsContent value="browse">
           <CardList header="Browse" data={data?.objectIDs} isLoading={isLoading} />

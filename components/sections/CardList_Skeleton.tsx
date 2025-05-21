@@ -8,7 +8,7 @@ export default function CardList_Skeleton({ cardsCount }: CardListSkeletonProps)
   return (
     <div>
       <div
-        className="max-w-7xl mx-auto grid gap-y-6 gap-x-4 justify-center"
+        className="section-width grid gap-y-6 gap-x-4 justify-center"
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
       >
         {Array.from({ length: cardsCount }, (_, index) => (
