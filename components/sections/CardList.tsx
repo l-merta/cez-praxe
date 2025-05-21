@@ -16,35 +16,30 @@ interface CardListProps {
   isLoading?: boolean;
   reload?: boolean;
   fnData?: (length?: number) => number[];
-  fnPar?: number;
 }
 
 export default function CardList({
     header,
     icon,
-    //url,
     data,
     isLoading,
     reload,
     fnData,
-    fnPar,
   }: CardListProps) {
-  const [internalData, setInternalData] = useState<number[] | undefined>(data);
+  const [internalData, setInternalData] = useState<number[] | undefined>(fnData ? fnData() : data);
   const [page, setPage] = useState(0)
   const [hasMore, setHasMore] = useState(true)
-  const [reloadKey, setReloadKey] = useState(0)
   const loader = useRef<HTMLDivElement | null>(null)
   const PAGE_SIZE = 15;
 
-  // Data loading effect, runs on mount and when reloadKey changes
-  useEffect(() => {
+  const handleReload = () => {
     if (fnData) {
-      setInternalData(fnPar ? fnData(fnPar) : fnData());
+      setInternalData(fnData());
     } else {
       setInternalData(data);
     }
-    setPage(0); // Reset page on reload
-  }, [fnData, fnPar, data, reloadKey]);
+    setPage(0);
+  };
 
   // Infinite scroll observer
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
@@ -76,8 +71,8 @@ export default function CardList({
       <div className="section-width flex justify-between align-center gap-4 mb-6 flex-wrap ">
         {header && <h2 className="text-2xl font-bold flex items-center gap-2">{icon} {header}</h2>}
         {reload && 
-          <Button onClick={() => setReloadKey(k => k + 1)} className="rounded-full p-2">
-            Reload <RotateCcw />
+          <Button onClick={handleReload} className="rounded-full p-2">
+            Reload prosím <RotateCcw />
           </Button>
         }
       </div>
