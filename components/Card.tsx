@@ -57,7 +57,7 @@ export default function Card({ id }: CardProps) {
           <Image
             ref={imgRef}
             src={data?.primaryImageSmall}
-            alt=""
+            alt={data?.title}
             className="object-cover w-full h-full transition-all duration-500"
             width={300}
             height={Math.round(initialHeight)}
