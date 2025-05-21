@@ -5,34 +5,26 @@ import { useEffect, useState, useRef, useCallback } from "react"
 import Card from '@/components/Card'
 import CardList_Skeleton from '@/components/sections/CardList_Skeleton'
 
-import { ApiCardProps } from '@/interface/api';
-import useGetObjects from "@/hooks/useGetObjects";
-
 interface CardListProps {
-  url: string;
+  url?: string;
   data?: number[];
   isLoading?: boolean;
 }
 
 export default function CardList({ url, data, isLoading }: CardListProps) {
-  const [objectIDs, setObjectIDs] = useState<number[]>([])
-  const [cards, setCards] = useState<ApiCardProps[]>([])
   const [page, setPage] = useState(0)
-  const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
   const loader = useRef<HTMLDivElement | null>(null)
   
   const PAGE_SIZE = 15;
-  const BASE_API_URL = "https://collectionapi.metmuseum.org/public/collection/v1/";
-  const API_URL = BASE_API_URL + url;
 
   // Infinite scroll observer
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
     const target = entries[0];
-    if (target.isIntersecting && hasMore && !loading) {
+    if (target.isIntersecting && hasMore && !isLoading) {
       setPage((prev) => prev + 1);
     }
-  }, [hasMore, loading])
+  }, [hasMore, isLoading])
 
   useEffect(() => {
     const option = { root: null, rootMargin: "20px", threshold: 1.0 };
@@ -41,19 +33,28 @@ export default function CardList({ url, data, isLoading }: CardListProps) {
     return () => { if (loader.current) observer.unobserve(loader.current) };
   }, [handleObserver])
 
+  useEffect(() => {
+    if (data) {
+      const maxPage = Math.ceil(data.length / PAGE_SIZE) - 1;
+      setHasMore(page < maxPage);
+    }
+  }, [data, page]);
+
+  const visibleCards = data?.slice(0, (page + 1) * PAGE_SIZE) || [];
+
   return (
     <div>
       <div
         className="section-width grid gap-y-6 gap-x-4 justify-center"
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
       >
-        {data?.slice(0, 10).map((card, index) => (
+        {visibleCards.map((card, index) => (
           <Card key={'key' + index} id={card} />
         ))}
       </div>
       <div ref={loader} />
-      {loading && <CardList_Skeleton cardsCount={8} />}
-      {!hasMore && !loading && <div className="text-center py-10 text-gray-400">No more cards.</div>}
+      {isLoading && <CardList_Skeleton cardsCount={8} />}
+      {!hasMore && !isLoading && <div className="text-center py-10 text-gray-400">No more cards.</div>}
     </div>
   )
 }

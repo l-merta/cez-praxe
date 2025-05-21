@@ -2,6 +2,7 @@
 import { useRef, useState, useEffect } from "react";
 import useGetDetail from "@/hooks/useGetDetail";
 
+import Card_Skeleton from "./Card_Skeleton";
 import { ImageOff } from "lucide-react";
 
 interface CardProps {
@@ -13,7 +14,7 @@ export default function Card({ id }: CardProps) {
   const [hovered, setHovered] = useState(true); // Start opened
   const [naturalHeight, setNaturalHeight] = useState(0);
 
-  const { data } = useGetDetail({ id });
+  const { data, isLoading } = useGetDetail({ id });
 
   // Close right after mount
   useEffect(() => {
@@ -35,6 +36,9 @@ export default function Card({ id }: CardProps) {
   // 16:9 aspect ratio for initial state
   const initialHeight = 0.5625 * 300; // 300px width example, adjust as needed
 
+  if (isLoading) return (
+    <Card_Skeleton />
+  )
   return (
     <div
       className="rounded-t-md overflow-hidden group"

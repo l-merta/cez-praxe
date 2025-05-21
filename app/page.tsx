@@ -34,13 +34,13 @@ export default function Home() {
           </div>
         </div>
         <TabsContent value="featured">
-          <CardList url="/objects" data={data?.objectIDs} isLoading={isLoading} />
+          <CardList data={data?.objectIDs} isLoading={isLoading} />
         </TabsContent>
         <TabsContent value="browse">
-          <CardList url="/objects" data={data?.objectIDs} isLoading={isLoading} />
+          <CardList data={data?.objectIDs} isLoading={isLoading} />
         </TabsContent>
         <TabsContent value="favorites">
-          <CardList url="/objects" data={data?.objectIDs} isLoading={isLoading} />
+          <CardList data={data?.objectIDs} isLoading={isLoading} />
         </TabsContent>
       </Tabs>
     </main>
