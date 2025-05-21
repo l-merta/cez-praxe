@@ -19,8 +19,17 @@ interface CardListProps {
   fnPar?: number;
 }
 
-export default function CardList(props: CardListProps) {
-  const [internalData, setInternalData] = useState<number[] | undefined>(props.data);
+export default function CardList({
+    header,
+    icon,
+    //url,
+    data,
+    isLoading,
+    reload,
+    fnData,
+    fnPar,
+  }: CardListProps) {
+  const [internalData, setInternalData] = useState<number[] | undefined>(data);
   const [page, setPage] = useState(0)
   const [hasMore, setHasMore] = useState(true)
   const [reloadKey, setReloadKey] = useState(0)
@@ -29,28 +38,29 @@ export default function CardList(props: CardListProps) {
 
   // Data loading effect, runs on mount and when reloadKey changes
   useEffect(() => {
-    if (props.fnData) {
-      setInternalData(props.fnPar ? props.fnData(props.fnPar) : props.fnData());
+    if (fnData) {
+      setInternalData(fnPar ? fnData(fnPar) : fnData());
     } else {
-      setInternalData(props.data);
+      setInternalData(data);
     }
     setPage(0); // Reset page on reload
-  }, [props.fnData, props.fnPar, props.data, reloadKey]);
+  }, [fnData, fnPar, data, reloadKey]);
 
   // Infinite scroll observer
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
     const target = entries[0];
-    if (target.isIntersecting && hasMore && !props.isLoading) {
+    if (target.isIntersecting && hasMore && !isLoading) {
       setPage((prev) => prev + 1);
     }
-  }, [hasMore, props.isLoading])
+  }, [hasMore, isLoading])
 
   useEffect(() => {
     const option = { root: null, rootMargin: "100px", threshold: 1.0 };
     const observer = new IntersectionObserver(handleObserver, option);
-    if (loader.current) observer.observe(loader.current);
-    return () => { if (loader.current) observer.unobserve(loader.current) };
-  }, [handleObserver])
+    const currentLoader = loader.current;
+    if (currentLoader) observer.observe(currentLoader);
+    return () => { if (currentLoader) observer.unobserve(currentLoader) };
+  }, [handleObserver]);
 
   useEffect(() => {
     if (internalData) {
@@ -64,8 +74,8 @@ export default function CardList(props: CardListProps) {
   return (
     <div>
       <div className="section-width flex justify-between align-center gap-4 mb-6 flex-wrap ">
-        {props.header && <h2 className="text-2xl font-bold flex items-center gap-2">{props.icon} {props.header}</h2>}
-        {props.reload && 
+        {header && <h2 className="text-2xl font-bold flex items-center gap-2">{icon} {header}</h2>}
+        {reload && 
           <Button onClick={() => setReloadKey(k => k + 1)} className="rounded-full p-2">
             Reload <RotateCcw />
           </Button>
@@ -80,8 +90,8 @@ export default function CardList(props: CardListProps) {
         ))}
       </div>
       <div ref={loader} />
-      {props.isLoading && <CardList_Skeleton cardsCount={8} />}
-      {!hasMore && !props.isLoading && <div className="text-center py-10 text-gray-400">No more cards.</div>}
+      {isLoading && <CardList_Skeleton cardsCount={8} />}
+      {!hasMore && !isLoading && <div className="text-center py-10 text-gray-400">No more cards.</div>}
     </div>
   )
 }

@@ -12,8 +12,8 @@ export default function Hero() {
 
   // Debounce function
   const debounce = useCallback(
-    (fn: (...args: any[]) => void, delay = 2000) => {
-      return (...args: any[]) => {
+    <T extends unknown[]>(fn: (...args: T) => void, delay = 2000) => {
+      return (...args: T) => {
         if (debounceRef.current) clearTimeout(debounceRef.current);
         debounceRef.current = setTimeout(() => fn(...args), delay);
       };
@@ -22,10 +22,7 @@ export default function Hero() {
   );
 
   // Debounced setter for search
-  const debouncedSetSearch = useCallback(
-    debounce((value: string) => setDebouncedSearch(value), 500),
-    [debounce]
-  );
+  const debouncedSetSearch = debounce((value: string) => setDebouncedSearch(value), 500);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

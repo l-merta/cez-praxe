@@ -1,6 +1,7 @@
 //import { ApiCardProps } from '@/interface/api';
 import { useRef, useState, useEffect } from "react";
 import useGetDetail from "@/hooks/useGetDetail";
+import Image from "next/image";
 
 import { Badge } from "@/components/ui/badge";
 import { ImageOff } from "lucide-react";
@@ -53,11 +54,14 @@ export default function Card({ id }: CardProps) {
         }}
       >
         {data?.primaryImage ? (
-          <img
+          <Image
             ref={imgRef}
             src={data?.primaryImageSmall}
             alt=""
             className="object-cover w-full h-full transition-all duration-500"
+            width={300}
+            height={Math.round(initialHeight)}
+            style={{ objectFit: "cover", width: "100%", height: "100%" }}
           />
         ) : (
           <div className="bg-gray-200 w-full h-full flex items-center justify-center">
