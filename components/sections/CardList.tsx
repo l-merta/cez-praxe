@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef, useCallback } from "react"
+import { useEffect, useState, useRef, useCallback, use } from "react"
 
 import Card from '@/components/Card'
 import { Button } from "@/components/ui/button"
@@ -31,6 +31,10 @@ export default function CardList({
   const [hasMore, setHasMore] = useState(true)
   const loader = useRef<HTMLDivElement | null>(null)
   const PAGE_SIZE = 15;
+
+  useEffect(() => {
+    handleReload();
+  }, [data]);
 
   const handleReload = () => {
     if (fnData) {
@@ -72,7 +76,7 @@ export default function CardList({
         {header && <h2 className="text-2xl font-bold flex items-center gap-2">{icon} {header}</h2>}
         {reload && 
           <Button onClick={handleReload} className="rounded-full p-2">
-            Reload prosím <RotateCcw />
+            Reload <RotateCcw />
           </Button>
         }
       </div>
