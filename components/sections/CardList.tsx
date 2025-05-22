@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import CardList_Skeleton from '@/components/sections/CardList_Skeleton'
 
 import { RotateCcw } from "lucide-react";
+import { ArrowUpFromLine } from 'lucide-react';
 
 interface CardListProps {
   header?: string;
@@ -45,6 +46,14 @@ export default function CardList({
     setPage(0);
   };
 
+  const scrollToTop = () => {
+    console.log("scrollToTop");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
   // Infinite scroll observer
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
     const target = entries[0];
@@ -71,6 +80,7 @@ export default function CardList({
   const visibleCards = internalData?.slice(0, (page + 1) * PAGE_SIZE) || [];
 
   return (
+    <>
     <div>
       <div className="section-width flex justify-between align-center gap-4 mb-6 flex-wrap ">
         {header && <h2 className="text-2xl font-bold flex items-center gap-2">{icon} {header}</h2>}
@@ -92,5 +102,14 @@ export default function CardList({
       {isLoading && <CardList_Skeleton cardsCount={8} />}
       {!hasMore && !isLoading && <div className="text-center py-10 text-gray-400">No more cards.</div>}
     </div>
+    <Button
+      onClick={() => scrollToTop()}
+      className={`fixed bottom-6 transition-all duration-75 rounded-full ${
+        visibleCards.length < 20 ? "right-[-60px]" : "right-6"
+      }`}
+    >
+      <ArrowUpFromLine />
+    </Button>
+    </>
   )
 }
