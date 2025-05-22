@@ -12,7 +12,7 @@ export default function CardList_Skeleton({ cardsCount }: CardListSkeletonProps)
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
       >
         {Array.from({ length: cardsCount }, (_, index) => (
-          <Card_Skeleton key={index} />
+          <Card_Skeleton key={"card_skeleton" + index} />
         ))}
       </div>
     </div>

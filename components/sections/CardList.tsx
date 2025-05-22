@@ -84,7 +84,7 @@ export default function CardList({
         className="section-width grid gap-y-6 gap-x-4 justify-center"
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
       >
-        {visibleCards.map((card, index) => (
+        {visibleCards.map((card) => (
           <Card key={card} id={card} />
         ))}
       </div>
