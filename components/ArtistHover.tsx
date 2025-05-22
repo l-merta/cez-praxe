@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 
 import { User } from 'lucide-react';
@@ -15,12 +13,10 @@ export default function ArtistHover({ data }: ArtistHoverProps) {
     <>
     {data?.artistDisplayName && 
     <HoverCard>
-      <Link href={data?.artistWikidata_URL} target="_blank" rel="noopener noreferrer">
-        <HoverCardTrigger className="w-fit font-semibold flex items-center gap-1 hover:underline cursor-pointer">
-          <User size={16} />
-          {data?.artistDisplayName}
-        </HoverCardTrigger>
-      </Link>
+      <HoverCardTrigger href={data?.artistWikidata_URL} target="_blank" className="w-fit font-semibold flex items-center gap-1 hover:underline cursor-pointer">
+        <User size={16} />
+        {data?.artistDisplayName}
+      </HoverCardTrigger>
       {data?.artistDisplayBio &&
         <HoverCardContent className="flex gap-4 w-fit">
           {/* <div className="w-10 h-10 rounded-full bg-red-500"></div> */}
