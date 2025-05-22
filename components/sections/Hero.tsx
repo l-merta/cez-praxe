@@ -5,30 +5,16 @@ import CardList from "@/components/sections/CardList";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
+import useGetSearch from "@/hooks/useGetSearch";
 
 export default function Hero() {
   const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
-  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Debounce function
-  const debounce = useCallback(
-    <T extends unknown[]>(fn: (...args: T) => void, delay = 2000) => {
-      return (...args: T) => {
-        if (debounceRef.current) clearTimeout(debounceRef.current);
-        debounceRef.current = setTimeout(() => fn(...args), delay);
-      };
-    },
-    []
-  );
-
-  // Debounced setter for search
-  const debouncedSetSearch = debounce((value: string) => setDebouncedSearch(value), 500);
+  const { data, isLoading } = useGetSearch({ q: search });
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearch(value);
-    debouncedSetSearch(value);
   };
 
   return (
@@ -45,10 +31,11 @@ export default function Hero() {
         <Button variant="default" className="w-full md:w-auto">Search <Search /></Button>
       </div>
     </div>
-    {debouncedSearch.length > 0 && (
+    {search.length > 0 && (
       <CardList
-        key={debouncedSearch}
-        url={`/search?q=${encodeURIComponent(debouncedSearch)}`}
+        key={search}
+        data={data?.objectIDs}
+        isLoading={isLoading}
       />
     )}
     </>
