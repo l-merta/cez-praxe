@@ -4,7 +4,9 @@ import Image from "next/image";
 
 import { Badge } from "@/components/ui/badge";
 import { ImageOff } from "lucide-react";
+import ArtistHover from "./ArtistHover";
 import Card_Skeleton from "./Card_Skeleton";
+import { ApiArtistProps } from "@/types/api";
 
 interface CardProps {
   id: number;
@@ -82,7 +84,7 @@ export default function Card({ id }: CardProps) {
         )}
       </div>
       {/* Text area fills the rest of the card */}
-      <div className="flex flex-col justify-between gap-2 p-4 rounded-b-md border-2 border-t-0 border-gray-100 flex-1">
+      <div className="flex flex-col justify-between gap-4 p-4 rounded-b-md border-2 border-t-0 border-gray-100 flex-1">
         <div className="flex flex-col gap-2">
           <h3 className="text-xl font-bold line-clamp-3">{data?.title}</h3>
           {data?.elementDescrition && (
@@ -98,7 +100,7 @@ export default function Card({ id }: CardProps) {
             </div>
           )}
         </div>
-        <p className="text-sm text-gray-500">{data?.objectID}</p>
+        <ArtistHover data={data as ApiArtistProps} />
       </div>
     </div>
   );

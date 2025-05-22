@@ -2,7 +2,13 @@ export interface ApiObjectsProps {
   total: number;
   objectIDs: number[];
 }
-export interface ApiDetailsProps {
+
+export interface ApiDetailsTagProps {
+  term: string;
+}
+
+// Shared fields
+export interface ApiDetailsBaseProps {
   objectID: number;
   title: string;
   elementDescrition: string | null;
@@ -12,6 +18,16 @@ export interface ApiDetailsProps {
   objectDate: string;
   tags: ApiDetailsTagProps[];
 }
-export interface ApiDetailsTagProps {
-  term: string;
+
+// Details type
+export interface ApiDetailsProps extends ApiDetailsBaseProps {}
+
+export interface ApiArtistProps extends ApiDetailsBaseProps {
+  artistDisplayName: string;
+  artistAlphaSort: string;
+  artistDisplayBio: string;
+  artistDisplayNationality: string;
+  artistBeginDate: string;
+  artistEndDate: string;
+  artistWikidata_URL: string;
 }
