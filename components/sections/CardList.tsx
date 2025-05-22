@@ -91,7 +91,7 @@ export default function CardList({
             </h2>
             {/* {internalData && <div className="bg-gray-700 w-[0.3rem] h-[0.3rem] rounded-full"></div>} */}
           </>}
-          {internalData && <span className="font-semibold">{internalData?.length} results</span>}
+          {internalData && internalData.length > 0 && <span className="font-semibold">{internalData?.length} results</span>}
         </div>
         {reload && 
           <Button onClick={handleReload} className="rounded-full p-2">
