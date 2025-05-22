@@ -1,4 +1,3 @@
-//import { ApiCardProps } from '@/interface/api';
 import { useRef, useState, useEffect } from "react";
 import useGetDetail from "@/hooks/useGetDetail";
 import Image from "next/image";
