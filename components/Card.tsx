@@ -37,20 +37,28 @@ export default function Card({ id }: CardProps) {
   // 16:9 aspect ratio for initial state
   const width = 300;
   const initialHeight = 0.5625 * width;
+  const maxOpenedHeight = 450; // Set your desired max opened height
 
   if (isLoading) return (
     <Card_Skeleton />
   )
   return (
     <div
-      className="rounded-t-md overflow-hidden group"
+      className="flex flex-col h-full rounded-t-md overflow-hidden group"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      {/* Image area with animated height only on hover */}
       <div
-        className="overflow-hidden transition-all duration-500"
+        className="relative w-full overflow-hidden"
         style={{
-          height: hovered && naturalHeight ? naturalHeight : initialHeight,
+          height:
+            hovered && naturalHeight
+              ? Math.min(Math.max(naturalHeight, initialHeight), maxOpenedHeight)
+              : initialHeight,
+          minHeight: initialHeight,
+          maxHeight: maxOpenedHeight,
+          transition: "height 0.5s"
         }}
       >
         {data?.primaryImage ? (
@@ -58,31 +66,38 @@ export default function Card({ id }: CardProps) {
             ref={imgRef}
             src={data?.primaryImageSmall}
             alt={data?.title}
-            className="object-cover w-full h-full transition-all duration-500"
-            width={300}
-            height={Math.round(initialHeight)}
-            style={{ objectFit: "cover", width: "100%", height: "100%" }}
+            className="object-cover w-full h-full"
+            width={width}
+            height={initialHeight}
+            style={{
+              objectFit: "cover",
+              width: "100%",
+              height: "100%"
+            }}
           />
         ) : (
-          <div className="bg-gray-200 w-full h-full flex items-center justify-center">
+          <div className="bg-gray-200 w-full h-full flex items-center justify-center" style={{height: "100%"}}>
             <ImageOff className="text-gray-500" />
           </div>
         )}
       </div>
-      <div className="flex flex-col gap-2 p-4 rounded-b-md border-2 border-t-0 border-gray-100">
-        <h3 className="text-xl font-bold">{data?.title}</h3>
-        {data?.elementDescrition && (
-          <p className="text-sm text-gray-500">{data?.elementDescrition}</p>
-        )}
-        {data?.tags && (
-          <div className="flex flex-wrap gap-2">
-            {data?.tags.map((tag) => (
-              <Badge key={tag.term} variant="secondary" className="text-sm">
-                {tag.term}
-              </Badge>
-            ))}
-          </div>
-        )}
+      {/* Text area fills the rest of the card */}
+      <div className="flex flex-col justify-between gap-2 p-4 rounded-b-md border-2 border-t-0 border-gray-100 flex-1">
+        <div className="flex flex-col gap-2">
+          <h3 className="text-xl font-bold line-clamp-3">{data?.title}</h3>
+          {data?.elementDescrition && (
+            <p className="text-sm text-gray-500">{data?.elementDescrition}</p>
+          )}
+          {data?.tags && (
+            <div className="flex flex-wrap gap-2">
+              {data?.tags.map((tag) => (
+                <Badge key={tag.term} variant="secondary" className="text-sm">
+                  {tag.term}
+                </Badge>
+              ))}
+            </div>
+          )}
+        </div>
         <p className="text-sm text-gray-500">{data?.objectID}</p>
       </div>
     </div>
