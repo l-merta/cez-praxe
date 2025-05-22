@@ -45,11 +45,11 @@ export default function Hero({ search, setSearch }: HeroProps) {
     <>
       <div className="section-width min-h-[50vh] flex flex-col items-center justify-center gap-6">
         <h1 className="text-4xl text-center font-bold">The Metropolitan Museum of Art</h1>
-        <div className="w-full md:w-md max-w-md flex items-center gap-2 flex-wrap md:flex-nowrap">
+        <div className="w-full md:w-lg max-w-lg flex items-center gap-2 flex-wrap md:flex-nowrap">
           <div className="w-full relative flex items-center">
             <Input
               placeholder="Search for art, artists, or objects…"
-              className=""
+              className="!text-lg h-fits px-4 py-5"
               value={inputValue}
               onChange={handleInput}
             />
