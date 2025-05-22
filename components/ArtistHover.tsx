@@ -16,7 +16,7 @@ export default function ArtistHover({ data }: ArtistHoverProps) {
     {data?.artistDisplayName && 
     <HoverCard>
       <Link href={data?.artistWikidata_URL} target="_blank" rel="noopener noreferrer">
-        <HoverCardTrigger className="font-semibold flex items-center gap-1 hover:underline cursor-pointer">
+        <HoverCardTrigger className="w-fit font-semibold flex items-center gap-1 hover:underline cursor-pointer">
           <User size={16} />
           {data?.artistDisplayName}
         </HoverCardTrigger>

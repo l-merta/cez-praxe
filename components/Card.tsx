@@ -46,7 +46,7 @@ export default function Card({ id }: CardProps) {
   )
   return (
     <div
-      className="flex flex-col h-full rounded-t-md overflow-hidden group"
+      className="flex flex-col h-full rounded-t-md overflow-hidden group max-w-200"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
