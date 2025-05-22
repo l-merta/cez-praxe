@@ -46,6 +46,8 @@ export default function Hero({ search, setSearch }: HeroProps) {
       </div>
       {search.length > 0 && (
         <CardList
+          header={"Searching '" + search + "'"}
+          icon={<Search />}
           key={search}
           data={data?.objectIDs}
           isLoading={isLoading}

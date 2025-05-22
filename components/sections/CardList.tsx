@@ -82,8 +82,17 @@ export default function CardList({
   return (
     <>
     <div>
-      <div className="section-width flex justify-between align-center gap-4 mb-6 flex-wrap ">
-        {header && <h2 className="text-2xl font-bold flex items-center gap-2">{icon} {header}</h2>}
+      <div className="section-width flex justify-between items-center gap-4 mb-6 flex-wrap ">
+        <div className="flex items-center gap-4">
+          {header && <>
+            <h2 className="text-2xl font-bold flex items-center gap-2">
+              {icon}
+              {header}
+            </h2>
+            {/* {internalData && <div className="bg-gray-700 w-[0.3rem] h-[0.3rem] rounded-full"></div>} */}
+          </>}
+          {internalData && <span className="font-semibold">{internalData?.length} results</span>}
+        </div>
         {reload && 
           <Button onClick={handleReload} className="rounded-full p-2">
             Reload <RotateCcw />
