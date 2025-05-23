@@ -8,7 +8,7 @@ export interface ApiDetailsTagProps {
 }
 
 // Shared fields
-export interface ApiDetailsBaseProps {
+export interface ApiDetailsProps {
   objectID: number;
   title: string;
   elementDescrition: string | null;
@@ -17,12 +17,7 @@ export interface ApiDetailsBaseProps {
   primaryImageSmall: string;
   objectDate: string;
   tags: ApiDetailsTagProps[];
-}
-
-// Details type
-export interface ApiDetailsProps extends ApiDetailsBaseProps {}
-
-export interface ApiArtistProps extends ApiDetailsBaseProps {
+  
   artistDisplayName: string;
   artistAlphaSort: string;
   artistDisplayBio: string;

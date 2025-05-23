@@ -1,14 +1,16 @@
 import { useRef, useState, useEffect } from "react";
+import Link from "next/link";
 import useGetDetail from "@/hooks/useGetDetail";
-import Image from "next/image";
 
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import ArtistHover from "./ArtistHover";
 import Card_Skeleton from "./Card_Skeleton";
-import { ApiArtistProps } from "@/types/api";
 import LikeButton from "@/components/LikeButton";
 
 import { ImageOff } from "lucide-react";
+
+import { ApiDetailsProps } from "@/types/api";
 
 interface CardProps {
   id: number;
@@ -53,7 +55,8 @@ export default function Card({ id }: CardProps) {
       onMouseLeave={handleMouseLeave}
     >
       {/* Image area with animated height only on hover */}
-      <div
+      <Link
+        href={'' + data.objectID}
         className="relative w-full overflow-hidden"
         style={{
           height:
@@ -84,12 +87,14 @@ export default function Card({ id }: CardProps) {
             <ImageOff className="text-gray-500" />
           </div>
         )}
-      </div>
+      </Link>
       {/* Text area fills the rest of the card */}
       <div className="flex flex-col justify-between gap-4 p-4 rounded-b-md border-2 border-t-0 border-gray-100 flex-1">
         <div className="flex flex-col gap-2">
           <div className="flex gap-2">
-            <h3 className="w-full text-xl font-bold line-clamp-3">{data?.title}</h3>
+            <Link href={'' + data.objectID} className="w-full ">
+              <h3 className="text-xl font-bold line-clamp-3 hover:underline">{data?.title}</h3>
+            </Link>
             <LikeButton id={data.objectID} />
           </div>
           {data?.elementDescrition && (
@@ -105,7 +110,7 @@ export default function Card({ id }: CardProps) {
             </div>
           )}
         </div>
-        <ArtistHover data={data as ApiArtistProps} />
+        <ArtistHover data={data as ApiDetailsProps} />
       </div>
     </div>
   );

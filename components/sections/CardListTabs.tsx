@@ -1,5 +1,4 @@
 "use client";
-import { useEffect } from "react";
 import useGetObjects from "@/hooks/useGetObjects";
 import { useFavorites } from "@/hooks/useFavorites";
 
