@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef, useCallback } from "react"
+import { useEffect, useState, useRef, useCallback } from "react";
 
 import Card from '@/components/Card'
 import { Button } from "@/components/ui/button"
@@ -31,6 +31,7 @@ export default function CardList({
   const [page, setPage] = useState(0)
   const [hasMore, setHasMore] = useState(true)
   const loader = useRef<HTMLDivElement | null>(null)
+
   const PAGE_SIZE = 15;
 
   useEffect(() => {

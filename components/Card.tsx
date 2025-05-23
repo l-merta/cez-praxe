@@ -3,10 +3,12 @@ import useGetDetail from "@/hooks/useGetDetail";
 import Image from "next/image";
 
 import { Badge } from "@/components/ui/badge";
-import { ImageOff } from "lucide-react";
 import ArtistHover from "./ArtistHover";
 import Card_Skeleton from "./Card_Skeleton";
 import { ApiArtistProps } from "@/types/api";
+import LikeButton from "@/components/LikeButton";
+
+import { ImageOff } from "lucide-react";
 
 interface CardProps {
   id: number;
@@ -41,7 +43,7 @@ export default function Card({ id }: CardProps) {
   const initialHeight = 0.5625 * width;
   const maxOpenedHeight = 450; // Set your desired max opened height
 
-  if (isLoading) return (
+  if (isLoading || !data) return (
     <Card_Skeleton />
   )
   return (
@@ -86,7 +88,10 @@ export default function Card({ id }: CardProps) {
       {/* Text area fills the rest of the card */}
       <div className="flex flex-col justify-between gap-4 p-4 rounded-b-md border-2 border-t-0 border-gray-100 flex-1">
         <div className="flex flex-col gap-2">
-          <h3 className="text-xl font-bold line-clamp-3">{data?.title}</h3>
+          <div className="flex gap-2">
+            <h3 className="w-full text-xl font-bold line-clamp-3">{data?.title}</h3>
+            <LikeButton id={data.objectID} />
+          </div>
           {data?.elementDescrition && (
             <p className="text-sm text-gray-500">{data?.elementDescrition}</p>
           )}

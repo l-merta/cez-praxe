@@ -1,14 +1,19 @@
 "use client";
+import { useEffect } from "react";
+import useGetObjects from "@/hooks/useGetObjects";
+import { useFavorites } from "@/hooks/useFavorites";
 
 import { TabsContent } from "@/components/ui/tabs";
-
-import useGetObjects from "@/hooks/useGetObjects";
-
 import CardList from "@/components/sections/CardList";
 import { GalleryHorizontalEnd, Telescope, Globe, Heart } from "lucide-react";
 
 export default function CardListTabs() {
   const { data, isLoading } = useGetObjects();
+  const { getFavorites } = useFavorites();
+
+  useEffect(() => {
+    console.log("Favorites update: ", getFavorites());
+  }, []);
 
   function getRandomObjects(length?: number) {
     if (!data?.objectIDs) return [];
@@ -33,7 +38,7 @@ export default function CardListTabs() {
       <CardList header="Browse" data={data?.objectIDs} isLoading={isLoading} icon={<Globe />} />
     </TabsContent>
     <TabsContent value="favorites">
-      <CardList header="Favorites" data={data?.objectIDs} isLoading={isLoading} icon={<Heart />} />
+      <CardList header="Favorites" fnData={getFavorites} isLoading={isLoading} icon={<Heart />} />
     </TabsContent>
     </>
   )
