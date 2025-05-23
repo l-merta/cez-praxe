@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 export function useFavorites() {
   const getFavorites = () => {
     if (typeof window !== "undefined") {

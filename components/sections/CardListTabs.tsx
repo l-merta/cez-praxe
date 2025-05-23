@@ -11,10 +11,6 @@ export default function CardListTabs() {
   const { data, isLoading } = useGetObjects();
   const { getFavorites } = useFavorites();
 
-  useEffect(() => {
-    console.log("Favorites update: ", getFavorites());
-  }, []);
-
   function getRandomObjects(length?: number) {
     if (!data?.objectIDs) return [];
     const ids = [...data.objectIDs];

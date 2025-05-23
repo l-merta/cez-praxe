@@ -12,7 +12,6 @@ export default function LikeButton({ id }: LikeButtonProps) {
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
-    console.log("favorites: ", getFavorites());
     setLiked(getFavorites()?.includes(id) || false);
   }, []);
 
