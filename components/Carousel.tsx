@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 import { Button } from './ui/button';
+
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 
 interface CarouselProps {
@@ -13,12 +14,24 @@ export default function Carousel({ imgs }: CarouselProps) {
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState<"left" | "right">("right");
   const [isAnimating, setIsAnimating] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const loadedImages = useRef<Set<string>>(new Set());
+
+  useEffect(() => {
+    // If image is already loaded, don't show spinner
+    if (loadedImages.current.has(imgs[current])) {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [current, imgs]);
 
   const handleChange = (dir: "left" | "right") => {
     if (isAnimating) return;
     setDirection(dir);
     setPrevIndex(current);
     setIsAnimating(true);
+    setLoading(false);
     setCurrent((prev) =>
       dir === "right"
         ? (prev === imgs.length - 1 ? 0 : prev + 1)
@@ -27,14 +40,13 @@ export default function Carousel({ imgs }: CarouselProps) {
   };
 
   const handleAnimationEnd = () => {
-    setPrevIndex(null);      // Remove previous image first
-    setIsAnimating(false);   // Then allow new transitions
+    setPrevIndex(null);
+    setIsAnimating(false);
   };
 
   return (
     <div className='!w-full md:w-1/2 flex flex-col gap-4 overflow-hidden'>
       <div className="relative w-full h-[600px] min-h-[200px] max-h-[70vh] bg-gray-100 rounded-lg">
-        {/* Previous image (slides out) */}
         {prevIndex !== null && (
           <div
             className={`
@@ -54,7 +66,6 @@ export default function Carousel({ imgs }: CarouselProps) {
             />
           </div>
         )}
-        {/* Current image (slides in) */}
         <div
           className={`
             absolute inset-0 transition-transform duration-500 
@@ -65,12 +76,22 @@ export default function Carousel({ imgs }: CarouselProps) {
               : ""}
           `}
         >
+          {loading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-lg z-10">
+              <div className="w-12 h-12 border-4 border-gray-300 border-t-gray-900 rounded-full animate-spin"></div>
+            </div>
+          )}
           <Image
             src={imgs[current]}
             alt="Current"
             width={1400}
             height={2000}
             className="object-contain rounded-lg w-full h-full"
+            onLoad={() => {
+              loadedImages.current.add(imgs[current]);
+              setLoading(false);
+            }}
+            priority
           />
         </div>
       </div>
@@ -94,6 +115,7 @@ export default function Carousel({ imgs }: CarouselProps) {
                 setDirection(index > current ? "right" : "left");
                 setPrevIndex(current);
                 setIsAnimating(true);
+                setLoading(false);
                 setCurrent(index);
               }}
             ></button>
@@ -103,37 +125,3 @@ export default function Carousel({ imgs }: CarouselProps) {
     </div>
   );
 }
-
-// Add these Tailwind CSS keyframes to your global CSS (e.g., globals.css):
-/*
-@layer utilities {
-  @keyframes slide-in-right {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-  @keyframes slide-in-left {
-    from { transform: translateX(-100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-  @keyframes slide-out-left {
-    from { transform: translateX(0); opacity: 1; }
-    to { transform: translateX(-100%); opacity: 0; }
-  }
-  @keyframes slide-out-right {
-    from { transform: translateX(0); opacity: 1; }
-    to { transform: translateX(100%); opacity: 0; }
-  }
-  .animate-slide-in-right {
-    animation: slide-in-right 0.5s;
-  }
-  .animate-slide-in-left {
-    animation: slide-in-left 0.5s;
-  }
-  .animate-slide-out-left {
-    animation: slide-out-left 0.5s;
-  }
-  .animate-slide-out-right {
-    animation: slide-out-right 0.5s;
-  }
-}
-*/

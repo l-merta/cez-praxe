@@ -1,6 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import useGetDetail from "@/hooks/useGetDetail";
+
 import Link from "next/link";
 import Image from "next/image";
 
@@ -10,10 +11,10 @@ import DetailData from "@/components/DetailData";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import Carousel from "@/components/Carousel";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { ArrowLeftFromLine, ImageOff, BadgeCheck, User, Diamond, Flag } from "lucide-react";
-import Carousel from "@/components/Carousel";
 
 export default function ArtPage() {
   const { id } = useParams();
@@ -30,7 +31,7 @@ export default function ArtPage() {
   )
   if (isLoading) return (
     <main className="section-width px-4 pt-6 flex flex-col gap-4">
-      <Link href='/'><Button>
+      <Link href="/"><Button>
         <ArrowLeftFromLine />
         Back
       </Button></Link>
@@ -54,7 +55,7 @@ export default function ArtPage() {
   );
   if (data) return (
     <main className="section-width px-4 pt-6 pb-10 flex flex-col gap-4">
-      <Link href='/'><Button>
+      <Link href="/"><Button>
         <ArrowLeftFromLine />
         Back
       </Button></Link>

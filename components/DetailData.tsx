@@ -9,8 +9,6 @@ interface DetailDataProps {
 }
 
 export default function DetailData({ children, data, icon, link, className }: DetailDataProps) {
-  console.log("DetailData", children, data, link);
-
   return (
     <>
     {data && 

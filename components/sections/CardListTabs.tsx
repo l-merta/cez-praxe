@@ -33,7 +33,7 @@ export default function CardListTabs() {
       <CardList header="Browse" data={data?.objectIDs} isLoading={isLoading} icon={<Globe />} />
     </TabsContent>
     <TabsContent value="favorites">
-      <CardList header="Favorites" fnData={getFavorites} isLoading={isLoading} icon={<Heart />} />
+      <CardList header="Favorites" fnData={getFavorites} icon={<Heart />} />
     </TabsContent>
     </>
   )
