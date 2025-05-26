@@ -13,6 +13,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { ArrowLeftFromLine, ImageOff, BadgeCheck, User, Diamond, Flag } from "lucide-react";
+import Carousel from "@/components/Carousel";
 
 export default function ArtPage() {
   const { id } = useParams();
@@ -59,18 +60,22 @@ export default function ArtPage() {
       </Button></Link>
       <div className="flex flex-wrap md:flex-nowrap gap-4">
         {data.primaryImage ? (
-          <Image
-            src={data.primaryImageSmall}
-            alt={data.title}
-            width={1400}
-            height={2000}
-            className="object-contain rounded-lg w-full md:w-1/2"
-          />
-        ) : (
+          (data.additionalImages.length > 0 ?
+            <Carousel imgs={[data.primaryImage, ...data.additionalImages]} ></Carousel>
+          : 
+            <Image
+              src={data.primaryImageSmall}
+              alt={data.title}
+              width={1400}
+              height={2000}
+              className="object-contain rounded-lg w-full md:w-1/2"
+            />
+          )
+        ) :
           <div className="bg-gray-200 w-full h-full rounded-lg aspect-[16/9] flex items-center justify-center">
             <ImageOff className="text-gray-500" />
           </div>
-        )}
+        }
         <div className="flex flex-col gap-4 w-full">
           {(data.objectDate || data.isHighlight) && 
             <div className="flex items-center gap-2 mb-[-0.7rem]">

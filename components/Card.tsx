@@ -4,11 +4,12 @@ import useGetDetail from "@/hooks/useGetDetail";
 
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@radix-ui/react-tooltip";
 import ArtistHover from "./ArtistHover";
 import Card_Skeleton from "./Card_Skeleton";
 import LikeButton from "@/components/LikeButton";
 
-import { ImageOff } from "lucide-react";
+import { BadgeCheck, Images, ImageOff } from "lucide-react";
 
 import { ApiDetailsProps } from "@/types/api";
 
@@ -50,11 +51,23 @@ export default function Card({ id }: CardProps) {
   )
   return (
     <div
-      className="flex flex-col h-full rounded-t-md overflow-hidden group max-w-200"
+      className="flex flex-col h-full rounded-t-md relative overflow-hidden group max-w-200"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Image area with animated height only on hover */}
+      <div className="flex items-center gap-2 absolute top-2 left-3 z-1">
+        {data.isHighlight && 
+          <Badge className="bg-gray-800/50 py-1.5 px-2 flex gap-1.5 text-md">
+            <BadgeCheck className="!w-5 !h-5" />
+          </Badge>
+        }
+        {data.additionalImages.length > 0 && 
+          <Badge className="bg-gray-800/50  py-1 px-2 flex gap-1.5 text-md">
+            <Images className="!w-4.5 !h-4.5" />
+            {data.additionalImages.length + 1}
+          </Badge>
+        }
+      </div>
       <Link
         href={'' + data.objectID}
         className="relative w-full overflow-hidden"
