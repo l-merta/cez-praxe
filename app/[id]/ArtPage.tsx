@@ -4,11 +4,13 @@ import useGetDetail from "@/hooks/useGetDetail";
 import Link from "next/link";
 import Image from "next/image";
 
+import LikeButton from "@/components/LikeButton";
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { ArrowLeftFromLine, ImageOff, User } from "lucide-react";
+import { ArrowLeftFromLine, ImageOff, Heart, User } from "lucide-react";
 
 export default function ArtPage() {
   const { id } = useParams();
@@ -70,6 +72,7 @@ export default function ArtPage() {
         <div className="flex flex-col gap-6 w-full">
           <h1 className="font-bold text-4xl">{data.title}</h1>
           {data.elementDescrition && <p className="font-bold text-4xl">{data.elementDescrition}</p>}
+          <LikeButton id={data.objectID} title={data.title}>Add to favorites</LikeButton>
           {data.tags && <div className="flex flex-wrap gap-2">
             {data.tags?.map((tag) => (
               <Badge key={tag.term} className="text-sm">
