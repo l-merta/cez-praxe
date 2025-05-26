@@ -95,7 +95,7 @@ export default function Card({ id }: CardProps) {
             <Link href={'' + data.objectID} className="w-full ">
               <h3 className="text-xl font-bold line-clamp-3 hover:underline">{data?.title}</h3>
             </Link>
-            <LikeButton id={data.objectID} />
+            <LikeButton id={data.objectID} title={data.title} />
           </div>
           {data?.elementDescrition && (
             <p className="text-sm text-gray-500">{data?.elementDescrition}</p>
