@@ -122,6 +122,6 @@
 }
 @layer component {
   .section-width {
-    @apply w-full max-w-[85rem] mx-auto
+    @apply w-full max-w-[85rem] mx-auto px-4;
   }
 }

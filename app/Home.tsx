@@ -10,13 +10,13 @@ export default function Home() {
   const [search, setSearch] = useState("");
 
   return (
-    <main className="px-4 pb-10">
+    <main className="pb-10">
       <Hero search={search} setSearch={setSearch} />
       {search.length == 0 &&  
         <Tabs defaultValue="featured">
-          <div className="sticky top-0 bg-white/20 dark:bg-gray-900/80 backdrop-blur z-20">
-            <div className="section-width py-3">
-              <TabsList className="*:px-8 flex-wrap h-fit">
+          <div className="sticky top-0 left-0 bg-white/20 dark:bg-gray-900/80 backdrop-blur z-20">
+            <div className="section-width !px-0 py-3">
+              <TabsList className="mx-4 *:px-8 flex-wrap h-fit">
                 <TabsTrigger value="featured"><GalleryHorizontalEnd /> Featured</TabsTrigger>
                 <TabsTrigger value="discover"><Telescope /> Discover</TabsTrigger>
                 <TabsTrigger value="browse"><Globe /> Browse</TabsTrigger>
