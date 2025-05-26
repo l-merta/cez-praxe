@@ -12,10 +12,19 @@ export interface ApiDetailsProps {
   objectID: number;
   title: string;
   elementDescrition: string | null;
+  objectName: string;
+  medium: string;
+  culture: string;
   repository: string;
+  department: string;
+  isHighlight: boolean;
+  city: string
+  state: string;
+  country: string;
+  objectDate: string;
   primaryImage: string;
   primaryImageSmall: string;
-  objectDate: string;
+  additionalImages: string[];
   tags: ApiDetailsTagProps[];
   
   artistDisplayName: string;

@@ -1,7 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import Provider from "@/providers/QueryProvider";
+import QueryProvider from "@/providers/QueryProvider";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { Toaster } from "sonner";
 
 const geistSans = Geist({
@@ -24,7 +25,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Provider>{children}</Provider>
+        <QueryProvider>
+          <TooltipProvider>
+            {children}
+          </TooltipProvider>
+        </QueryProvider>
         <Toaster />
       </body>
     </html>
