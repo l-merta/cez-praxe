@@ -49,14 +49,14 @@ jobs:
       env:
         SSHPASS: ${{ secrets.SSH_PASSWORD }}
       run: |
-        sshpass -e scp -o StrictHostKeyChecking=no -r .next public package.json next.config.js root@mertalukas:/var/www/next-app/
+        sshpass -e scp -o StrictHostKeyChecking=no -r .next public package.json next.config.js root@mertalukas:/var/www/html/public/museum/
 
     - name: Start/Restart Next.js app on server
       env:
         SSHPASS: ${{ secrets.SSH_PASSWORD }}
       run: |
         sshpass -e ssh -o StrictHostKeyChecking=no root@mertalukas << 'EOF'
-          cd /var/www/next-app
+          cd /var/www/html/public/museum
           npm install --omit=dev
-          pm2 start "npm run start" --name next-app --watch -- --port 6040 || pm2 restart next-app
+          pm2 start "npm run start" --name museum --watch -- --port 6040 || pm2 restart museum
         EOF
