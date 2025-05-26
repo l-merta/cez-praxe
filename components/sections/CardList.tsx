@@ -36,7 +36,7 @@ export default function CardList({
 
   useEffect(() => {
     handleReload();
-  }, [data]);
+  }, [data, isLoading]);
 
   const handleReload = () => {
     if (fnData) {
