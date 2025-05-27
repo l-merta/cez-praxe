@@ -4,6 +4,7 @@ import "./globals.css";
 import QueryProvider from "@/providers/QueryProvider";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { Toaster } from "sonner";
+import { AppStateProvider } from "@/providers/AppStateProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,9 @@ export default function RootLayout({
       >
         <QueryProvider>
           <TooltipProvider>
-            {children}
+            <AppStateProvider>
+              {children}
+            </AppStateProvider>
           </TooltipProvider>
         </QueryProvider>
         <Toaster />

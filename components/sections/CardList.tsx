@@ -36,6 +36,7 @@ export default function CardList({
 
   const handleReload = useCallback(() => {
     if (fnData) {
+      console.log("Reloading data with fnData");
       setInternalData(fnData());
     } else {
       setInternalData(data);
@@ -48,7 +49,6 @@ export default function CardList({
   }, [handleReload, isLoading]);
 
   const scrollToTop = () => {
-    console.log("scrollToTop");
     window.scrollTo({
       top: 0,
       behavior: "smooth",

@@ -1,56 +1,22 @@
 "use client";
+import { use, useContext } from "react";
 import useGetObjects from "@/hooks/useGetObjects";
 import { useFavorites } from "@/hooks/useFavorites";
 
 import { TabsContent } from "@/components/ui/tabs";
 import CardList from "@/components/sections/CardList";
-import { GalleryHorizontalEnd, Telescope, Globe, Heart, Shuffle } from "lucide-react";
+import { GalleryHorizontalEnd, Telescope, Globe, Heart } from "lucide-react";
 
-import { murmurhash3_32_gc } from './../../hooks/useShuffle';
+import { AppContext } from "@/providers/AppStateProvider";
 
 export default function CardListTabs() {
-  const { data, isLoading } = useGetObjects();
   const { getFavorites } = useFavorites();
-
-  // console.log("CardListTabs data", data, "isLoading", isLoading);
-
-  function getRandomObjects(length?: number, seed?: string | number) {
-    if (!data?.objectIDs) return [];
-
-    let ids = [...data.objectIDs];
-
-    if (seed) {
-      const seedStr = String(seed);
-      const seedNum = murmurhash3_32_gc(seedStr);
-
-      const entries = ids.map((id) => ({
-        id,
-        sortKey: murmurhash3_32_gc(`${seedStr}-${id}`, seedNum),
-      }));
-
-      ids = entries
-        .sort((a, b) => a.sortKey - b.sortKey)
-        .map((entry) => entry.id);
-      }
-    else {
-      // Fisher-Yates shuffle for true randomness
-      for (let i = ids.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [ids[i], ids[j]] = [ids[j], ids[i]];
-      }
-    }
-    
-
-    return length ? ids.slice(0, length) : ids;
-  }
-
-  const date = new Date();
-  const dateSeed = "" + date.getDate() + date.getMonth() + date.getFullYear();
+  const { data, featured, getRandomObjects, isLoading } = useContext(AppContext);
 
   return (
     <>
     <TabsContent value="featured">
-      <CardList header="Featured" data={getRandomObjects(10, dateSeed)} isLoading={isLoading} icon={<GalleryHorizontalEnd />} />
+      <CardList header="Featured" data={featured} isLoading={isLoading} icon={<GalleryHorizontalEnd />} />
     </TabsContent>
     <TabsContent value="discover">
       <CardList header="Discover" fnData={getRandomObjects} reload isLoading={isLoading} icon={<Telescope />} />
