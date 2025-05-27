@@ -49,7 +49,7 @@ jobs:
       env:
         SSHPASS: ${{ secrets.SSH_PASSWORD }}
       run: |
-        sshpass -e scp -o StrictHostKeyChecking=no -r .next public package.json next.config.ts root@mertalukas:/var/www/html/public/museum/
+        sshpass -e scp -o StrictHostKeyChecking=no -r .next public package.json next.config.js root@mertalukas:/var/www/html/public/museum/
 
     - name: Start/Restart Next.js app on server
       env:
