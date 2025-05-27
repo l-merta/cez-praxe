@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import { useParams } from "next/navigation";
 import useGetDetail from "@/hooks/useGetDetail";
 

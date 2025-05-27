@@ -1,6 +1,5 @@
 "use client";
-import { use, useContext } from "react";
-import useGetObjects from "@/hooks/useGetObjects";
+import { useContext } from "react";
 import { useFavorites } from "@/hooks/useFavorites";
 
 import { TabsContent } from "@/components/ui/tabs";
