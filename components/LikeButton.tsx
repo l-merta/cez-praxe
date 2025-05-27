@@ -18,7 +18,7 @@ export default function LikeButton({ children, id, title }: LikeButtonProps) {
 
   useEffect(() => {
     setLiked(getFavorites()?.includes(id) || false);
-  }, []);
+  }, [getFavorites, id]);
 
   const handleLike = (liked: boolean) => {
     setFavoriteValue(id, !liked);

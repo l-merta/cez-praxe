@@ -34,18 +34,18 @@ export default function CardList({
 
   const PAGE_SIZE = 15;
 
-  useEffect(() => {
-    handleReload();
-  }, [data, isLoading]);
-
-  const handleReload = () => {
+  const handleReload = useCallback(() => {
     if (fnData) {
       setInternalData(fnData());
     } else {
       setInternalData(data);
     }
     setPage(0);
-  };
+  }, [fnData, data]);
+
+  useEffect(() => {
+    handleReload();
+  }, [handleReload, isLoading]);
 
   const scrollToTop = () => {
     console.log("scrollToTop");

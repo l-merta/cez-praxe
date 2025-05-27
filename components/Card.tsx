@@ -4,7 +4,6 @@ import useGetDetail from "@/hooks/useGetDetail";
 
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@radix-ui/react-tooltip";
 import ArtistHover from "./ArtistHover";
 import Card_Skeleton from "./Card_Skeleton";
 import LikeButton from "@/components/LikeButton";
