@@ -7,7 +7,6 @@ function useGetObjectsQueryKey() {
   return ["objects"];
 }
 async function useFetchObjects(): Promise<ApiObjectsProps> {
-  console.log("Fetching objects");
   const { data } = await axiosInstance.get("objects");
   return data;
 }

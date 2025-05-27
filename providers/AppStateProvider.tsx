@@ -35,8 +35,6 @@ const AppStateProvider = ({ children }: AppStateProviderProps) => {
   // Wrap getRandomObjects with useCallback to memoize it
   const getRandomObjects = useCallback(
     (length?: number, seed?: string | number) => {
-      console.log("random");
-      
       if (!data?.objectIDs) return [];
 
       let ids = [...data.objectIDs];

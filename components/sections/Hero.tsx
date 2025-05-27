@@ -6,9 +6,11 @@ import debounce from "lodash.debounce";
 import CardList from "@/components/sections/CardList";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import FilterMenu from "../FilterMenu";
 
-import { Search } from "lucide-react";
-import { X } from "lucide-react";
+import { Search, X } from "lucide-react";
+
+import { FilterSettingsTypes } from "@/types/app";
 
 interface HeroProps {
   search: string;
@@ -16,8 +18,26 @@ interface HeroProps {
 }
 
 export default function Hero({ search, setSearch }: HeroProps) {
-  const { data, isLoading } = useGetSearch({ q: search });
   const [inputValue, setInputValue] = useState(search);
+  const [filterSettings, setFilterSettings] = useState<FilterSettingsTypes[]>([
+    {
+      name: "hasImages",
+      label: "Has image",
+      value: true,
+    },
+    {
+      name: "isHighlight",
+      label: "Is highlighted",
+      value: false,
+    },
+    {
+      name: "isOnView",
+      label: "Is on view",
+      value: false,
+    },
+  ]);
+
+  const { data, isLoading } = useGetSearch({ q: search, filterSettings });
 
   // Debounce setSearch so it only fires after user stops typing
   const debouncedSetSearch = useMemo(
@@ -45,7 +65,7 @@ export default function Hero({ search, setSearch }: HeroProps) {
     <>
       <div className="section-width min-h-[50vh] flex flex-col items-center justify-center gap-6">
         <h1 className="text-4xl text-center font-bold">The Metropolitan Museum of Art</h1>
-        <div className="w-full md:w-lg max-w-lg flex items-center gap-2 flex-wrap md:flex-nowrap">
+        <div className="w-full md:w-lg max-w-lg flex items-center gap-2">
           <div className="w-full relative flex items-center">
             <Input
               placeholder="Search for art, artists, or objects…"
@@ -59,7 +79,7 @@ export default function Hero({ search, setSearch }: HeroProps) {
               </Button>
             }
           </div>
-          {/* <Button variant="default" className="w-full md:w-auto">Search <Search /></Button> */}
+          <FilterMenu filterSettings={filterSettings} setFilterSettings={setFilterSettings} />
         </div>
       </div>
       {search.length > 0 && (
