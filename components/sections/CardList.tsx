@@ -88,8 +88,8 @@ export default function CardList({
 
   return (
     <>
-    <div>
-      <div className={"section-width flex justify-between items-center gap-4 mb-6 flex-wrap " + className}>
+    <div className={className}>
+      <div className="section-width flex justify-between items-center gap-4 mb-6 flex-wrap ">
         <div className="flex items-center gap-4">
           {header && <>
             <h2 className="text-2xl font-bold flex items-center gap-2">

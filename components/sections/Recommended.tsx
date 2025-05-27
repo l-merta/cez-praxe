@@ -21,7 +21,7 @@ export default function Hero({ search }: HeroProps) {
           key={search}
           data={data?.objectIDs.slice(1)}
           isLoading={isLoading}
-          className="mt-10"
+          className="mt-10 *:!px-0"
         />
       )}
     </>
