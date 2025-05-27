@@ -55,6 +55,10 @@ export default function CardList({
     });
   }
 
+  // useEffect(() => {
+  //   console.log("data", data, "isLoading", isLoading);
+  // }, [data, isLoading]);
+
   // Infinite scroll observer
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
     const target = entries[0];
