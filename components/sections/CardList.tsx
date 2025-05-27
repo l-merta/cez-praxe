@@ -17,6 +17,7 @@ interface CardListProps {
   isLoading?: boolean;
   reload?: boolean;
   fnData?: (length?: number) => number[];
+  className?: string;
 }
 
 export default function CardList({
@@ -26,6 +27,7 @@ export default function CardList({
     isLoading,
     reload,
     fnData,
+    className,
   }: CardListProps) {
   const [internalData, setInternalData] = useState<number[] | undefined>(fnData ? fnData() : data);
   const [page, setPage] = useState(0)
@@ -87,7 +89,7 @@ export default function CardList({
   return (
     <>
     <div>
-      <div className="section-width flex justify-between items-center gap-4 mb-6 flex-wrap ">
+      <div className={"section-width flex justify-between items-center gap-4 mb-6 flex-wrap " + className}>
         <div className="flex items-center gap-4">
           {header && <>
             <h2 className="text-2xl font-bold flex items-center gap-2">

@@ -1,15 +1,16 @@
 "use client";
+import { useState } from "react";
 import { useParams } from "next/navigation";
 import useGetDetail from "@/hooks/useGetDetail";
 
 import Link from "next/link";
 import Image from "next/image";
-
-import LikeButton from "@/components/LikeButton";
-import DetailData from "@/components/DetailData";
+import Recommended from "@/components/sections/Recommended";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import LikeButton from "@/components/LikeButton";
+import DetailData from "@/components/DetailData";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import Carousel from "@/components/Carousel";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -59,7 +60,7 @@ export default function ArtPage() {
         <ArrowLeftFromLine />
         Back
       </Button></Link>
-      <div className="flex flex-wrap md:flex-nowrap gap-4">
+      <div className="min-h-[60vh] flex items-start flex-wrap md:flex-nowrap gap-4">
         {data.primaryImage ? (
           (data.additionalImages.length > 0 ?
             <Carousel imgs={[data.primaryImage, ...data.additionalImages]} ></Carousel>
@@ -110,6 +111,7 @@ export default function ArtPage() {
           </div>
         </div>
       </div>
+      <Recommended search={data.title}></Recommended>
     </main>
   );
 }
