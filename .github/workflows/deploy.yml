@@ -58,5 +58,5 @@ jobs:
         sshpass -e ssh -o StrictHostKeyChecking=no root@mertalukas << 'EOF'
           cd /var/www/html/public/museum
           pm2 delete museum
-          PORT=6040 pm2 start "npm run start" --name museum
+          pm2 start "npm run start" --name museum
         EOF
