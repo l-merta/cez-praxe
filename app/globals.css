@@ -144,6 +144,12 @@
     from { transform: translateX(0); opacity: 1; }
     to { transform: translateX(100%); opacity: 0; }
   }
+
+  @keyframes slide-in-bottom {
+    from { transform: translateY(2.0rem); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
   .animate-slide-in-right {
     animation: slide-in-right 0.5s forwards;
   }
@@ -155,5 +161,9 @@
   }
   .animate-slide-out-right {
     animation: slide-out-right 0.5s forwards;
+  }
+
+  .animate-slide-in-bottom {
+    animation: slide-in-bottom 0.5s ease-out forwards;
   }
 }

@@ -6,7 +6,7 @@ import Card from '@/components/Card'
 import { Button } from "@/components/ui/button"
 import CardList_Skeleton from '@/components/skeletons/CardList_Skeleton'
 
-import { RotateCcw, ArrowUpFromLine } from 'lucide-react';
+import { RotateCw, ArrowUpFromLine } from 'lucide-react';
 
 interface CardListProps {
   header?: string;
@@ -16,6 +16,7 @@ interface CardListProps {
   isLoading?: boolean;
   reload?: boolean;
   fnData?: (length?: number) => number[];
+  hideUnfavorited?: boolean;
   className?: string;
 }
 
@@ -26,6 +27,7 @@ export default function CardList({
     isLoading,
     reload,
     fnData,
+    hideUnfavorited,
     className,
   }: CardListProps) {
   const [internalData, setInternalData] = useState<number[] | undefined>(fnData ? fnData() : data);
@@ -57,7 +59,7 @@ export default function CardList({
   }, [hasMore, isLoading])
 
   useEffect(() => {
-    const option = { root: null, rootMargin: "100px", threshold: 1.0 };
+    const option = { root: null, rootMargin: "120px", threshold: 1.0 };
     const observer = new IntersectionObserver(handleObserver, option);
     const currentLoader = loader.current;
     if (currentLoader) observer.observe(currentLoader);
@@ -83,13 +85,12 @@ export default function CardList({
               {icon}
               {header}
             </h2>
-            {/* {internalData && <div className="bg-gray-700 w-[0.3rem] h-[0.3rem] rounded-full"></div>} */}
           </>}
           {internalData && internalData.length > 0 && <span className="font-semibold">{internalData?.length} results</span>}
         </div>
         {reload && 
-          <Button onClick={handleReload} className="rounded-full p-2">
-            Reload <RotateCcw />
+          <Button onClick={handleReload} className="rounded-full p-2 group">
+            Reload <RotateCw className="group-hover:animate-spin" />
           </Button>
         }
       </div>
@@ -98,7 +99,7 @@ export default function CardList({
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
       >
         {visibleCards.map((card) => (
-          <Card key={card} id={card} />
+          <Card key={card} id={card} hideUnfavorited={hideUnfavorited} />
         ))}
       </div>
       <div ref={loader} />

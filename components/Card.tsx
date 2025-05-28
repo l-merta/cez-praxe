@@ -14,11 +14,13 @@ import { ApiDetailsProps } from "@/types/api";
 
 interface CardProps {
   id: number;
+  hideUnfavorited?: boolean;
 }
 
-export default function Card({ id }: CardProps) {
+export default function Card({ id, hideUnfavorited }: CardProps) {
   const imgRef = useRef<HTMLImageElement>(null);
-  const [hovered, setHovered] = useState(true); // Start opened
+  const [isUnfavorited, setIsUnfavorited] = useState(false);
+  const [hovered, setHovered] = useState(true);
   const [naturalHeight, setNaturalHeight] = useState(0);
 
   const { data, isLoading } = useGetDetail({ id });
@@ -40,6 +42,12 @@ export default function Card({ id }: CardProps) {
     setHovered(false);
   };
 
+  const onLikeChanged = (value: boolean) => {
+    if (hideUnfavorited) {
+      setIsUnfavorited(!value);
+    }
+  }
+
   // 16:9 aspect ratio for initial state
   const width = 300;
   const initialHeight = 0.5625 * width;
@@ -50,7 +58,7 @@ export default function Card({ id }: CardProps) {
   )
   return (
     <div
-      className="flex flex-col h-full rounded-t-md relative overflow-hidden group max-w-200"
+      className={"flex flex-col h-full rounded-t-md relative overflow-hidden group max-w-200 " + (hideUnfavorited && isUnfavorited ? "hidden" : "")}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -106,7 +114,7 @@ export default function Card({ id }: CardProps) {
             <Link href={String(data.objectID)} className="w-full ">
               <h3 className="text-xl font-bold line-clamp-3 hover:underline">{data?.title}</h3>
             </Link>
-            <LikeButton id={data.objectID} title={data.title} />
+            <LikeButton id={data.objectID} title={data.title} onLikeChanged={onLikeChanged} />
           </div>
           {data?.elementDescrition && (
             <p className="text-sm text-gray-500">{data?.elementDescrition}</p>
