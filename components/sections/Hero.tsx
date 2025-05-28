@@ -54,10 +54,6 @@ export default function Hero({ search, setSearch }: HeroProps) {
   };
 
   useEffect(() => {
-    setInputValue(search);
-  }, [search]);
-
-  useEffect(() => {
     return () => {
       debouncedSetSearch.cancel();
     };
@@ -76,7 +72,7 @@ export default function Hero({ search, setSearch }: HeroProps) {
               onChange={handleInput}
             />
             {inputValue.length > 0 &&
-              <Button onClick={()=>{setSearch("")}} variant={"ghost"} className="!p-0 h-[80%] aspect-[1/1] absolute right-1 rounded-full">
+              <Button onClick={()=>{setSearch(""); setInputValue("")}} variant={"ghost"} className="!p-0 h-[80%] aspect-[1/1] absolute right-1 rounded-full">
                 <X size={10} />
               </Button>
             }
