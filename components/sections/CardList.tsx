@@ -16,6 +16,7 @@ interface CardListProps {
   isLoading?: boolean;
   reload?: boolean;
   fnData?: (length?: number) => number[];
+  hideUnfavorited?: boolean;
   className?: string;
 }
 
@@ -26,6 +27,7 @@ export default function CardList({
     isLoading,
     reload,
     fnData,
+    hideUnfavorited,
     className,
   }: CardListProps) {
   const [internalData, setInternalData] = useState<number[] | undefined>(fnData ? fnData() : data);
@@ -98,7 +100,7 @@ export default function CardList({
         style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}
       >
         {visibleCards.map((card) => (
-          <Card key={card} id={card} />
+          <Card key={card} id={card} hideUnfavorited={hideUnfavorited} />
         ))}
       </div>
       <div ref={loader} />
