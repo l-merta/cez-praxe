@@ -7,14 +7,11 @@ interface AppStateProviderProps {
   children: ReactNode;
 }
 interface AppContextProps {
-  
-    featured: number[] | undefined;
-    setFeatured: React.Dispatch<React.SetStateAction<number[] | undefined>>;
-    data: { objectIDs: number[] } | undefined;
-    isLoading: boolean;
-    getRandomObjects: (length?: number, seed?: string | number) => number[];
-  
-  
+  featured: number[] | undefined;
+  setFeatured: React.Dispatch<React.SetStateAction<number[] | undefined>>;
+  data: { objectIDs: number[] } | undefined;
+  isLoading: boolean;
+  getRandomObjects: (length?: number, seed?: string | number) => number[];
 }
 
 const AppContext = createContext<AppContextProps>({
@@ -74,4 +71,11 @@ const AppStateProvider = ({ children }: AppStateProviderProps) => {
   return <AppContext value={{ featured, setFeatured, data, isLoading,getRandomObjects }}>{children}</AppContext>;
 };
 
-export { AppContext, AppStateProvider };
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}
+
+export { AppContext, AppStateProvider, scrollToTop };

@@ -1,13 +1,12 @@
 "use client"
-
 import { useEffect, useState, useRef, useCallback } from "react";
+import { scrollToTop } from "@/providers/AppStateProvider";
 
 import Card from '@/components/Card'
 import { Button } from "@/components/ui/button"
 import CardList_Skeleton from '@/components/skeletons/CardList_Skeleton'
 
-import { RotateCcw } from "lucide-react";
-import { ArrowUpFromLine } from 'lucide-react';
+import { RotateCcw, ArrowUpFromLine } from 'lucide-react';
 
 interface CardListProps {
   header?: string;
@@ -48,13 +47,6 @@ export default function CardList({
   useEffect(() => {
     handleReload();
   }, [handleReload, isLoading]);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  }
 
   // Infinite scroll observer
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
