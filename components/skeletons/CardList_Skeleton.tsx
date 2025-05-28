@@ -1,4 +1,4 @@
-import Card_Skeleton from '@/components/Card_Skeleton'
+import Card_Skeleton from '@/components/skeletons/Card_Skeleton'
 
 interface CardListSkeletonProps {
   cardsCount: number;

@@ -10,7 +10,6 @@ export default function Home() {
   const [search, setSearch] = useState("");
 
   const scrollToTop = () => {
-    console.log("scrollToTop");
     window.scrollTo({
       top: 0,
       behavior: "smooth",

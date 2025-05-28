@@ -17,25 +17,27 @@ interface HeroProps {
   setSearch: (value: string) => void;
 }
 
+const defaultFilterSettings: FilterSettingsTypes[] = [
+  {
+    name: "hasImages",
+    label: "Has image",
+    value: true,
+  },
+  {
+    name: "isHighlight",
+    label: "Is highlighted",
+    value: false,
+  },
+  {
+    name: "isOnView",
+    label: "Is on view",
+    value: false,
+  },
+];
+
 export default function Hero({ search, setSearch }: HeroProps) {
   const [inputValue, setInputValue] = useState(search);
-  const [filterSettings, setFilterSettings] = useState<FilterSettingsTypes[]>([
-    {
-      name: "hasImages",
-      label: "Has image",
-      value: true,
-    },
-    {
-      name: "isHighlight",
-      label: "Is highlighted",
-      value: false,
-    },
-    {
-      name: "isOnView",
-      label: "Is on view",
-      value: false,
-    },
-  ]);
+  const [filterSettings, setFilterSettings] = useState<FilterSettingsTypes[]>(defaultFilterSettings);
 
   const { data, isLoading } = useGetSearch({ q: search, filterSettings });
 

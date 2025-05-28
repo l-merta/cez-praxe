@@ -5,7 +5,7 @@ import useGetDetail from "@/hooks/useGetDetail";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import ArtistHover from "./ArtistHover";
-import Card_Skeleton from "./Card_Skeleton";
+import Card_Skeleton from "./skeletons/Card_Skeleton";
 import LikeButton from "@/components/LikeButton";
 
 import { BadgeCheck, Images, ImageOff } from "lucide-react";
@@ -100,11 +100,10 @@ export default function Card({ id }: CardProps) {
           </div>
         )}
       </Link>
-      {/* Text area fills the rest of the card */}
       <div className="flex flex-col justify-between gap-4 p-4 rounded-b-md border-2 border-t-0 border-gray-100 flex-1">
         <div className="flex flex-col gap-2">
           <div className="flex items-start gap-2">
-            <Link href={'' + data.objectID} className="w-full ">
+            <Link href={String(data.objectID)} className="w-full ">
               <h3 className="text-xl font-bold line-clamp-3 hover:underline">{data?.title}</h3>
             </Link>
             <LikeButton id={data.objectID} title={data.title} />

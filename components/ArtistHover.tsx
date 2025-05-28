@@ -19,7 +19,6 @@ export default function ArtistHover({ data }: ArtistHoverProps) {
       </HoverCardTrigger>
       {data?.artistDisplayBio &&
         <HoverCardContent className="flex gap-4 w-fit">
-          {/* <div className="w-10 h-10 rounded-full bg-red-500"></div> */}
           <div className="flex flex-col gap-2 min-w-50 max-w-60">
             <p className="font-semibold">{data?.artistAlphaSort}</p>
             <p>{data?.artistDisplayBio}</p>

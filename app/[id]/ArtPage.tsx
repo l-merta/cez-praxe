@@ -2,19 +2,18 @@
 import { useParams } from "next/navigation";
 import useGetDetail from "@/hooks/useGetDetail";
 
-import Link from "next/link";
 import Image from "next/image";
 import Recommended from "@/components/sections/Recommended";
 
-import { Button } from "@/components/ui/button";
+import ButtonBack from "@/components/ButtonBack";
 import { Badge } from "@/components/ui/badge";
 import LikeButton from "@/components/LikeButton";
-import DetailData from "@/components/DetailData";
+import DetailData from "@/components/DetailLabel";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import Carousel from "@/components/Carousel";
-import { Skeleton } from "@/components/ui/skeleton";
+import ArtPage_Skeleton from "@/components/skeletons/ArtPage_Skeleton";
 
-import { ArrowLeftFromLine, ImageOff, BadgeCheck, User, Diamond, Flag } from "lucide-react";
+import { ImageOff, BadgeCheck, User, Diamond, Flag } from "lucide-react";
 
 export default function ArtPage() {
   const { id } = useParams();
@@ -22,47 +21,23 @@ export default function ArtPage() {
 
   if (isError) return (
     <main className="section-width px-4 pt-6 flex flex-col gap-4">
-      <Link href='/'><Button>
-        <ArrowLeftFromLine />
-        Back
-      </Button></Link>
+      <ButtonBack />
       <h1 className="text-2xl font-bold">Error: {error.message}</h1>
     </main>
   )
   if (isLoading) return (
     <main className="section-width px-4 pt-6 flex flex-col gap-4">
-      <Link href="/"><Button>
-        <ArrowLeftFromLine />
-        Back
-      </Button></Link>
-      <div className="flex gap-4">
-        <Skeleton className="!w-full ratio-[3/4] h-96" />
-        <div className="flex flex-col gap-6 w-full">
-          <Skeleton className="w-9/10 h-20" />
-          <Skeleton className="w-full h-10" />
-          <div className="flex flex-wrap gap-4">
-            <Skeleton className="w-20 h-8" />
-            <Skeleton className="w-20 h-8" />
-            <Skeleton className="w-20 h-8" />
-          </div>
-          <div className="flex flex-wrap gap-4 items-center">
-            <Skeleton className="w-12 rounded-full aspect-square" />
-            <Skeleton className="w-60 h-6" />
-          </div>
-        </div>
-      </div>
+      <ButtonBack />
+      <ArtPage_Skeleton />
     </main>
   );
   if (data) return (
     <main className="section-width px-4 pt-6 pb-10 flex flex-col gap-4">
-      <Link href="/"><Button>
-        <ArrowLeftFromLine />
-        Back
-      </Button></Link>
+      <ButtonBack />
       <div className="min-h-[60vh] flex items-start flex-wrap md:flex-nowrap gap-4">
         {data.primaryImage ? (
           (data.additionalImages.length > 0 ?
-            <Carousel imgs={[data.primaryImage, ...data.additionalImages]} ></Carousel>
+            <Carousel imgs={[data.primaryImage, ...data.additionalImages]} pageTitle={data.title} ></Carousel>
           : 
             <Image
               src={data.primaryImageSmall}

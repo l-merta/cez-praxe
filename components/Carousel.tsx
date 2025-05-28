@@ -7,15 +7,23 @@ import { ArrowRight, ArrowLeft } from 'lucide-react';
 
 interface CarouselProps {
   imgs: Array<string>;
+  pageTitle: string;
+}
+enum Direction {
+  Left = "left",
+  Right = "right"
 }
 
-export default function Carousel({ imgs }: CarouselProps) {
+export default function Carousel({ imgs, pageTitle }: CarouselProps) {
   const [current, setCurrent] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
-  const [direction, setDirection] = useState<"left" | "right">("right");
+  const [direction, setDirection] = useState<Direction>(Direction.Right);
   const [isAnimating, setIsAnimating] = useState(false);
   const [loading, setLoading] = useState(true);
   const loadedImages = useRef<Set<string>>(new Set());
+
+  const imageW: number = 1400;
+  const imageH: number = 2000;
 
   useEffect(() => {
     // If image is already loaded, don't show spinner
@@ -26,14 +34,14 @@ export default function Carousel({ imgs }: CarouselProps) {
     }
   }, [current, imgs]);
 
-  const handleChange = (dir: "left" | "right") => {
+  const handleChange = (dir: Direction) => {
     if (isAnimating) return;
     setDirection(dir);
     setPrevIndex(current);
     setIsAnimating(true);
     setLoading(false);
     setCurrent((prev) =>
-      dir === "right"
+      dir === Direction.Right
         ? (prev === imgs.length - 1 ? 0 : prev + 1)
         : (prev === 0 ? imgs.length - 1 : prev - 1)
     );
@@ -59,9 +67,9 @@ export default function Carousel({ imgs }: CarouselProps) {
           >
             <Image
               src={imgs[prevIndex]}
-              alt="Previous"
-              width={1400}
-              height={2000}
+              alt={pageTitle}
+              width={imageW}
+              height={imageH}
               className="object-contain rounded-lg w-full h-full"
             />
           </div>
@@ -83,9 +91,9 @@ export default function Carousel({ imgs }: CarouselProps) {
           )}
           <Image
             src={imgs[current]}
-            alt="Current"
-            width={1400}
-            height={2000}
+            alt={pageTitle}
+            width={imageW}
+            height={imageH}
             className="object-contain rounded-lg w-full h-full"
             onLoad={() => {
               loadedImages.current.add(imgs[current]);
@@ -97,13 +105,13 @@ export default function Carousel({ imgs }: CarouselProps) {
       </div>
       <div className='flex justify-between gap-2'>
         <div className='flex items-center gap-2'>
-          <Button className='!p-1 rounded-full w-fit h-fit' variant={"ghost"} onClick={() => handleChange("left")} aria-label="Previous image" disabled={isAnimating}><ArrowLeft className='!w-7 !h-7' /></Button>
-          <Button className='!p-1 rounded-full w-fit h-fit' variant={"ghost"} onClick={() => handleChange("right")} aria-label="Next image" disabled={isAnimating}><ArrowRight className='!w-7 !h-7' /></Button>
+          <Button className='!p-1 rounded-full w-fit h-fit' variant={"ghost"} onClick={() => handleChange(Direction.Right)} aria-label="Previous image" disabled={isAnimating}><ArrowLeft className='!w-7 !h-7' /></Button>
+          <Button className='!p-1 rounded-full w-fit h-fit' variant={"ghost"} onClick={() => handleChange(Direction.Left)} aria-label="Next image" disabled={isAnimating}><ArrowRight className='!w-7 !h-7' /></Button>
         </div>
         <div className='flex justify-center items-center gap-2'>
-          {imgs.map((_, index) => (
+          {imgs.map((img, index) => (
             <button
-              key={index}
+              key={img}
               type="button"
               className={`w-4.5 h-4.5 rounded-full cursor-pointer border-3 transition-colors duration-200 focus:outline-none ${
                 index === current ? 'border-gray-900' : 'border-gray-200'
@@ -112,7 +120,7 @@ export default function Carousel({ imgs }: CarouselProps) {
               disabled={isAnimating || index === current}
               onClick={() => {
                 if (isAnimating || index === current) return;
-                setDirection(index > current ? "right" : "left");
+                setDirection(index > current ? Direction.Right : Direction.Left);
                 setPrevIndex(current);
                 setIsAnimating(true);
                 setLoading(false);

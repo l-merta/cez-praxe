@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 
 import Card from '@/components/Card'
 import { Button } from "@/components/ui/button"
-import CardList_Skeleton from '@/components/sections/CardList_Skeleton'
+import CardList_Skeleton from '@/components/skeletons/CardList_Skeleton'
 
 import { RotateCcw } from "lucide-react";
 import { ArrowUpFromLine } from 'lucide-react';
@@ -38,7 +38,6 @@ export default function CardList({
 
   const handleReload = useCallback(() => {
     if (fnData) {
-      console.log("Reloading data with fnData");
       setInternalData(fnData());
     } else {
       setInternalData(data);
@@ -56,10 +55,6 @@ export default function CardList({
       behavior: "smooth",
     });
   }
-
-  // useEffect(() => {
-  //   console.log("data", data, "isLoading", isLoading);
-  // }, [data, isLoading]);
 
   // Infinite scroll observer
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
