@@ -20,6 +20,12 @@ jobs:
         chmod +x cloudflared
         sudo mv cloudflared /usr/local/bin/
 
+    - name: Export Environment Variables
+      env:
+        NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+      run: |
+        echo NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL >> ./.env
+
     - name: Install dependencies
       run: |
         npm install
@@ -49,7 +55,7 @@ jobs:
       env:
         SSHPASS: ${{ secrets.SSH_PASSWORD }}
       run: |
-        sshpass -e scp -o StrictHostKeyChecking=no -r .next public package.json next.config.ts root@mertalukas:/var/www/html/public/museum/
+        sshpass -e scp -o StrictHostKeyChecking=no -r .next public package.json next.config.js root@mertalukas:/var/www/html/public/museum/
 
     - name: Start/Restart Next.js app on server
       env:
@@ -58,5 +64,5 @@ jobs:
         sshpass -e ssh -o StrictHostKeyChecking=no root@mertalukas << 'EOF'
           cd /var/www/html/public/museum
           pm2 delete museum
-          PORT=6040 pm2 start "npm run start" --name museum
+          pm2 start "npm run start" --name museum
         EOF
