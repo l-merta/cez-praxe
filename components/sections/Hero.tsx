@@ -61,14 +61,14 @@ export default function Hero({ search, setSearch }: HeroProps) {
 
   return (
     <>
-      <div className="section-width min-h-[50vh] flex flex-col items-center justify-center gap-6">
+      <div className="section-width animate-slide-in-bottom  min-h-[50vh] flex flex-col items-center justify-center gap-6">
         <h1 className="text-4xl text-center font-bold">The Metropolitan Museum of Art</h1>
         <div className="w-full md:w-lg max-w-lg flex items-center gap-2">
           <div className="w-full relative flex items-center">
             <div className="w-full flex relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
               <Input
-                placeholder="Search for art, artists, or objects…asdfasdf"
+                placeholder="Search for art, artists, or objects…"
                 className="!text-lg h-fits px-4 py-5 pl-11"
                 value={inputValue}
                 onChange={handleInput}
