@@ -1,56 +1,94 @@
 "use client";
-import { useState, useRef, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
+import useGetSearch from "@/hooks/useGetSearch";
+import debounce from "lodash.debounce";
 
 import CardList from "@/components/sections/CardList";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
+import FilterMenu from "../FilterMenu";
 
-export default function Hero() {
-  const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
-  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+import { Search, X } from "lucide-react";
 
-  // Debounce function
-  const debounce = useCallback(
-    <T extends unknown[]>(fn: (...args: T) => void, delay = 2000) => {
-      return (...args: T) => {
-        if (debounceRef.current) clearTimeout(debounceRef.current);
-        debounceRef.current = setTimeout(() => fn(...args), delay);
-      };
-    },
-    []
+import { FilterSettingsTypes } from "@/types/app";
+
+interface HeroProps {
+  search: string;
+  setSearch: (value: string) => void;
+}
+
+const defaultFilterSettings: FilterSettingsTypes[] = [
+  {
+    name: "hasImages",
+    label: "Has image",
+    value: true,
+  },
+  {
+    name: "isHighlight",
+    label: "Is highlighted",
+    value: false,
+  },
+  {
+    name: "isOnView",
+    label: "Is on view",
+    value: false,
+  },
+];
+
+export default function Hero({ search, setSearch }: HeroProps) {
+  const [inputValue, setInputValue] = useState(search);
+  const [filterSettings, setFilterSettings] = useState<FilterSettingsTypes[]>(defaultFilterSettings);
+
+  const { data, isLoading } = useGetSearch({ q: search, filterSettings });
+
+  // Debounce setSearch so it only fires after user stops typing
+  const debouncedSetSearch = useMemo(
+    () => debounce((value: string) => setSearch(value), 300),
+    [setSearch]
   );
-
-  // Debounced setter for search
-  const debouncedSetSearch = debounce((value: string) => setDebouncedSearch(value), 500);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setSearch(value);
+    setInputValue(value);
     debouncedSetSearch(value);
   };
 
+  useEffect(() => {
+    return () => {
+      debouncedSetSearch.cancel();
+    };
+  }, [debouncedSetSearch]);
+
   return (
     <>
-    <div className="section-width min-h-[50vh] flex flex-col items-center justify-center gap-6">
-      <h1 className="text-4xl text-center font-bold">The Metropolitan Museum of Art</h1>
-      <div className="w-full md:w-md max-w-md flex items-center gap-2 flex-wrap md:flex-nowrap">
-        <Input
-          placeholder="Search for art, artists, or objects…"
-          className=""
-          value={search}
-          onChange={handleInput}
-        />
-        <Button variant="default" className="w-full md:w-auto">Search <Search /></Button>
+      <div className="section-width min-h-[50vh] flex flex-col items-center justify-center gap-6">
+        <h1 className="text-4xl text-center font-bold">The Metropolitan Museum of Art</h1>
+        <div className="w-full md:w-lg max-w-lg flex items-center gap-2">
+          <div className="w-full relative flex items-center">
+            <Input
+              placeholder="Search for art, artists, or objects…"
+              className="!text-lg h-fits px-4 py-5"
+              value={inputValue}
+              onChange={handleInput}
+            />
+            {inputValue.length > 0 &&
+              <Button onClick={()=>{setSearch(""); setInputValue("")}} variant={"ghost"} className="!p-0 h-[80%] aspect-[1/1] absolute right-1 rounded-full">
+                <X size={10} />
+              </Button>
+            }
+          </div>
+          <FilterMenu filterSettings={filterSettings} setFilterSettings={setFilterSettings} />
+        </div>
       </div>
-    </div>
-    {debouncedSearch.length > 0 && (
-      <CardList
-        key={debouncedSearch}
-        url={`/search?q=${encodeURIComponent(debouncedSearch)}`}
-      />
-    )}
+      {search.length > 0 && (
+        <CardList
+          header={"Searching '" + search + "'"}
+          icon={<Search />}
+          key={search}
+          data={data?.objectIDs}
+          isLoading={isLoading}
+        />
+      )}
     </>
   );
 }

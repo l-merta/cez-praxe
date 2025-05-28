@@ -11,5 +11,12 @@ async function useFetchObjects(): Promise<ApiObjectsProps> {
   return data;
 }
 export default function useGetObjects() {
-  return useQuery({ queryKey: useGetObjectsQueryKey(), queryFn: useFetchObjects });
+  return useQuery({ 
+    queryKey: useGetObjectsQueryKey(),
+    queryFn: useFetchObjects,
+    staleTime: Infinity,             // Data is always considered fresh
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
 }
