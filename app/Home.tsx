@@ -25,7 +25,7 @@ export default function Home() {
   return (
     <main className="pb-10">
       <Hero search={search} setSearch={setSearch} />
-      {search.length == 0 && !isLoadingLastTab ? 
+      {search.length == 0 && (!isLoadingLastTab ? 
         <Tabs defaultValue={lastTab} onValueChange={(value) => handleTabChange(value)}>
           <div className="sticky top-0 left-0 bg-white/20 dark:bg-gray-900/80 backdrop-blur z-20">
             <div className="section-width !px-0 py-3">
@@ -46,7 +46,7 @@ export default function Home() {
         </div>
         <CardList_Skeleton cardsCount={8} />
         </>
-      }
+      )}
     </main>
   );
 }

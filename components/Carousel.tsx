@@ -105,8 +105,8 @@ export default function Carousel({ imgs, pageTitle }: CarouselProps) {
       </div>
       <div className='flex justify-between gap-2'>
         <div className='flex items-center gap-2'>
-          <Button className='!p-1 rounded-full w-fit h-fit' variant={"ghost"} onClick={() => handleChange(Direction.Right)} aria-label="Previous image" disabled={isAnimating}><ArrowLeft className='!w-7 !h-7' /></Button>
-          <Button className='!p-1 rounded-full w-fit h-fit' variant={"ghost"} onClick={() => handleChange(Direction.Left)} aria-label="Next image" disabled={isAnimating}><ArrowRight className='!w-7 !h-7' /></Button>
+          <Button className='!p-1 rounded-full w-fit h-fit' variant={"ghost"} onClick={() => handleChange(Direction.Left)} aria-label="Previous image" disabled={isAnimating}><ArrowLeft className='!w-7 !h-7' /></Button>
+          <Button className='!p-1 rounded-full w-fit h-fit' variant={"ghost"} onClick={() => handleChange(Direction.Right)} aria-label="Next image" disabled={isAnimating}><ArrowRight className='!w-7 !h-7' /></Button>
         </div>
         <div className='flex justify-center items-center gap-2'>
           {imgs.map((img, index) => (
