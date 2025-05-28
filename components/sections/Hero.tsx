@@ -65,12 +65,15 @@ export default function Hero({ search, setSearch }: HeroProps) {
         <h1 className="text-4xl text-center font-bold">The Metropolitan Museum of Art</h1>
         <div className="w-full md:w-lg max-w-lg flex items-center gap-2">
           <div className="w-full relative flex items-center">
-            <Input
-              placeholder="Search for art, artists, or objects…"
-              className="!text-lg h-fits px-4 py-5"
-              value={inputValue}
-              onChange={handleInput}
-            />
+            <div className="w-full flex relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
+              <Input
+                placeholder="Search for art, artists, or objects…asdfasdf"
+                className="!text-lg h-fits px-4 py-5 pl-11"
+                value={inputValue}
+                onChange={handleInput}
+              />
+            </div>
             {inputValue.length > 0 &&
               <Button onClick={()=>{setSearch(""); setInputValue("")}} variant={"ghost"} className="!p-0 h-[80%] aspect-[1/1] absolute right-1 rounded-full">
                 <X size={10} />
