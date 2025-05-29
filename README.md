@@ -22,33 +22,31 @@
 
 ## 🛠 Tech Stack
 
-| Technologie       | Popis                                         |
-|-------------------|-----------------------------------------------|
-| **Next.js**       | Framework pro React s podporou SSR a SEO      |
-| **React**         | Frontend knihovna                             |
-| **Shadcn/ui**     | Knihovna stylovaných komponentů               |
-| **Tailwind CSS**  | Utility-first CSS framework                   |
-| **TanStack Query**| Správa a cachování dat z API                  |
-| **Lucide**        | Knihovna ikon                                 |
-| **Local Storage** | Uložení oblíbených děl na straně klienta      |
+**Next.js** - Framework pro React s podporou SSR a SEO
+**React** - Frontend knihovna
+**Shadcn/ui** - Knihovna stylovaných komponentů
+**Tailwind CSS** - Utility-first CSS framework
+**TanStack Query** - Správa a cachování dat z API
+**Lucide** - Knihovna ikon
+**Local Storage** - Uložení oblíbených děl na straně klienta
 
 ---
 
 ## 📦 Instalace a spuštění
 
-```bash
-# Klonuj repozitář
-git clone https://github.com/l-merta/cez-praxe.git
-cd cez-praxe
-
-# Instaluj závislosti
-npm install
-
-# Spusť vývojový server
-npm run dev
-```
-
-Aplikace poběží na [http://localhost:3000](http://localhost:3000)
+1. **Naklonujte repozitář**:
+   ```bash
+   git clone https://github.com/l-merta/cez-praxe.git
+2. **Přejděte do adresáře projektu**:
+   ```bash
+   cd cez-praxe
+3. **Nainstalujte závislosti**:
+   ```bash
+   npm install
+4. **Spusťte aplikaci**:
+   ```bash
+   npm run dev
+5. Aplikace poběží na [http://localhost:3000](http://localhost:3000)
 
 ---
 ## 📄 API
