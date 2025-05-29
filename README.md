@@ -22,13 +22,13 @@
 
 ## 🛠 Tech Stack
 
-**Next.js** - Framework pro React s podporou SSR a SEO
-**React** - Frontend knihovna
-**Shadcn/ui** - Knihovna stylovaných komponentů
-**Tailwind CSS** - Utility-first CSS framework
-**TanStack Query** - Správa a cachování dat z API
-**Lucide** - Knihovna ikon
-**Local Storage** - Uložení oblíbených děl na straně klienta
+- **Next.js** - Framework pro React s podporou SSR a SEO
+- **React** - Frontend knihovna
+- **Shadcn/ui** - Knihovna stylovaných komponentů
+- **Tailwind CSS** - Utility-first CSS framework
+- **TanStack Query** - Správa a cachování dat z API
+- **Lucide** - Knihovna ikon
+- **Local Storage** - Uložení oblíbených děl na straně klienta
 
 ---
 
